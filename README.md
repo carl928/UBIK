@@ -1,29 +1,14 @@
-# README #
+# UpperBody IK (UBIK) #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+UBIK is an Upper Body IK solution for VR inspired by Mathias Parger's master thesis http://diglib.tugraz.at/download.php?id=5c4a48dc5a282&location=browse
+which was implemented in Unity and shared here: https://github.com/dabeschte/VRArmIK
 
-### What is this repository for? ###
+### Features ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+* VR Upper Body based on two controllers and hmd
+* 360deg movement
+* Simple support for skeletal meshes
+* Support for IK chain going from Pelvis and up
+* Limited support for twist bones
 
-### How do I get set up? ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
