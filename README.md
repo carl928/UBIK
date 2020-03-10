@@ -3,7 +3,7 @@
 UBIK is an Upper Body IK solution for VR inspired by Mathias Parger's master thesis http://diglib.tugraz.at/download.php?id=5c4a48dc5a282&location=browse
 which was implemented in Unity and shared here: https://github.com/dabeschte/VRArmIK
 
-## Part 20 - Skeletal mesh preparations in Blender ##
+## Part 21 - Pelvis, Spine_01, 02 and 03 ##
 
 ### Features ###
 
