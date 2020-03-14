@@ -3,7 +3,7 @@
 UBIK is an Upper Body IK solution for VR inspired by Mathias Parger's master thesis http://diglib.tugraz.at/download.php?id=5c4a48dc5a282&location=browse
 which was implemented in Unity and shared here: https://github.com/dabeschte/VRArmIK
 
-## Part 22 - Clavicles + some adjustments ##
+## Part 23 - Upper- and LowerArms ##
 
 ### Features ###
 
