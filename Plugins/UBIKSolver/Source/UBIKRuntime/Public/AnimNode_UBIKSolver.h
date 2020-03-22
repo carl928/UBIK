@@ -5,22 +5,6 @@
 #include "BoneControllers/AnimNode_SkeletalControlBase.h"
 #include "AnimNode_UBIKSolver.generated.h"
 
-USTRUCT(BlueprintType)
-struct UBIKRUNTIME_API FUBIK_Settings
-{
-	GENERATED_USTRUCT_BODY()
-
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Solver)
-	bool bDrawDebug = false;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Solver)
-	float UpperArmsDistance = 30.f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Solver)
-	float DistinctShoulderRotationMultiplier = 60.f;
-};
-
 /**
  *
  */
@@ -29,16 +13,25 @@ struct UBIKRUNTIME_API FAnimNode_UBIKSolver : public FAnimNode_SkeletalControlBa
 {
     GENERATED_USTRUCT_BODY()
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinShownByDefault))
-	FUBIK_Settings Settings;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinShownByDefault))
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault))
+	FTransform HeadEffector;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault))
+	FTransform LeftEffector;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault))
+	FTransform RightEffector;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Debug)
 	bool bDrawDebug = false;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
 	float UpperArmsDistance = 30.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
 	float DistinctShoulderRotationMultiplier = 60.f;
 
 	// FAnimNode_Base interface
