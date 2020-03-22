@@ -26,8 +26,7 @@ public class UBIKEditor : ModuleRules
 			new string[]
 			{
 				"Core",
-                "AnimGraphRuntime",
-                "BlueprintGraph",
+				"UBIKRuntime",
 				// ... add other public dependencies that you statically link with here ...
 			}
             );
@@ -43,6 +42,9 @@ public class UBIKEditor : ModuleRules
                 "GraphEditor",
                 "PropertyEditor",
                 "EditorStyle",
+                "AnimGraphRuntime",
+				"AnimGraph",
+                "BlueprintGraph",
 				// ... add private dependencies that you statically link with here ...	
 			}
             );
