@@ -1,4 +1,4 @@
-// Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
+// 2020 Sticky Snout Studio (Jonas Mølgaard)
 
 #pragma once
 
@@ -17,22 +17,46 @@ struct UBIKRUNTIME_API FAnimNode_UBIKSolver : public FAnimNode_SkeletalControlBa
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault))
-	FTransform HeadEffector;
+		FTransform HeadEffector;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault))
-	FTransform LeftEffector;
+		FTransform LeftEffector;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault))
-	FTransform RightEffector;
+		FTransform RightEffector;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Debug)
-	bool bDrawDebug = false;
+		bool bDrawDebug = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
-	float UpperArmsDistance = 30.f;
+		float UpperArmsDistance = 30.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
-	float DistinctShoulderRotationMultiplier = 60.f;
+		float DistinctShoulderRotationMultiplier = 60.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
+		float DistinctShoulderRotationLimit = 45.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
+		float ClavicleOffset = -32.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
+		float ElbowBaseOffsetAngle = 90.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
+		float ElbowYDistanceStart = .2f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
+		float ElbowYWeight = 130.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
+		float ElbowHandsRotSpeed = 15.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
+		float HeadHandsAngleLimit = 150.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
+		float HeadHandAngleOkSpan = 80.f;
 
 	// FAnimNode_Base interface
 	virtual void GatherDebugData(FNodeDebugData& DebugData) override;

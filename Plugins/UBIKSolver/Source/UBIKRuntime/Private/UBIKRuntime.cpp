@@ -1,4 +1,4 @@
-// Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
+// 2020 Sticky Snout Studio (Jonas Mølgaard)
 
 #include "UBIKRuntime.h"
 
