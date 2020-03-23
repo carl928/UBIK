@@ -3,10 +3,25 @@
 #pragma once
 
 #include "BoneControllers/AnimNode_SkeletalControlBase.h"
+#include <Kismet/BlueprintFunctionLibrary.h>
 #include "AnimNode_UBIKSolver.generated.h"
 
 /**
- *
+ * UBIK Calibrate
+ */
+UCLASS()
+class UBIKRUNTIME_API UUBIKCalibrate : public UBlueprintFunctionLibrary
+{
+	GENERATED_BODY()
+
+public:
+
+	UFUNCTION(BlueprintCallable)
+	bool Calibrate();
+};
+
+/**
+ * UBIK Solver
  */
 USTRUCT(BlueprintInternalUseOnly)
 struct UBIKRUNTIME_API FAnimNode_UBIKSolver : public FAnimNode_SkeletalControlBase
