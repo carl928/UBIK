@@ -13,6 +13,10 @@ which was implemented in Unity and shared here: https://github.com/dabeschte/VRA
 * Support for IK chain going from Pelvis and up
 * Limited support for twist bones
 
+### Limitations ###
+
+* Currently only works in upright position (Aligned with World Up-Vector)
+
 ### Branches ###
-* 4.23 is the BP only version that i did the tutorials on.
-* 4.23_Plugin *(Work in progress)* is my current attempt at trying to convert it to cpp in a Plugin.
+* **4.23** is the BP only version that i did the tutorials on.
+* **4.23_Plugin** *(Work in progress)* is my current attempt at trying to convert it to cpp in a Plugin.
