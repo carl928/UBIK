@@ -18,51 +18,55 @@ struct UBIKRUNTIME_API FAnimNode_UBIKSolver : public FAnimNode_SkeletalControlBa
 
 	//** Head bone to modify **/
 	UPROPERTY(EditAnywhere, Category = HeadBone)
-	FBoneReference HeadBoneToModify;
+	FBoneReference HeadBoneToModify = FBoneReference("head");
 
 	/** Left Clavicle bone to modify **/
 	UPROPERTY(EditAnywhere, Category = ClavicleBone)
-	FBoneReference LeftClavicleBoneToModify;
+	FBoneReference LeftClavicleBoneToModify = FBoneReference("clavicle_l");
 
 	/** Right Clavicle Arm bone to modify **/
 	UPROPERTY(EditAnywhere, Category = ClavicleBone)
-	FBoneReference RightClavicleBoneToModify;
+	FBoneReference RightClavicleBoneToModify = FBoneReference("clavicle_r");
 
 	/** Left Upper Arm bone to modify **/
 	UPROPERTY(EditAnywhere, Category = UpperArm)
-	FBoneReference LeftUpperArmBoneToModify;
+	FBoneReference LeftUpperArmBoneToModify = FBoneReference("upperarm_l");
 
 	/** Right Upper Arm bone to modify **/
 	UPROPERTY(EditAnywhere, Category = UpperArm)
-	FBoneReference RightUpperArmBoneToModify;
+	FBoneReference RightUpperArmBoneToModify = FBoneReference("upperarm_r");
 
 	/** Left Lower Arm bone to modify **/
 	UPROPERTY(EditAnywhere, Category = LowerArm)
-	FBoneReference LeftLowerArmBoneToModify;
+	FBoneReference LeftLowerArmBoneToModify = FBoneReference("lowerarm_l");;
 
 	/** Right Lower Arm bone to modify **/
 	UPROPERTY(EditAnywhere, Category = LowerArm)
-	FBoneReference RightLowerArmBoneToModify;
+	FBoneReference RightLowerArmBoneToModify = FBoneReference("lowerarm_r");
 
 	/** Left Hand bone to modify **/
 	UPROPERTY(EditAnywhere, Category = Hand)
-	FBoneReference LeftHandBoneToModify;
+	FBoneReference LeftHandBoneToModify = FBoneReference("hand_l");
 
 	/** Right Hand bone to modify **/
 	UPROPERTY(EditAnywhere, Category = Hand)
-	FBoneReference RightHandBoneToModify;
+	FBoneReference RightHandBoneToModify = FBoneReference("hand_r");
 
-	//** Pelvis1 bone to modify **/
-	UPROPERTY(EditAnywhere, Category = Spine)
-	FBoneReference Spine01_BoneToModify;
+	//** Spine01 bone to modify **/
+	UPROPERTY(EditAnywhere, Category = Spine_and_Pelvis)
+	FBoneReference Spine01_BoneToModify = FBoneReference("spine_01");
 
-	//** Pelvis2 bone to modify **/
-	UPROPERTY(EditAnywhere, Category = Spine)
-	FBoneReference Spine02_BoneToModify;
+	//** Spine02 bone to modify **/
+	UPROPERTY(EditAnywhere, Category = Spine_and_Pelvis)
+	FBoneReference Spine02_BoneToModify = FBoneReference("spine_02");
 
-	//** Pelvis3 bone to modify **/
-	UPROPERTY(EditAnywhere, Category = Spine)
-	FBoneReference Spine03_BoneToModify;
+	//** Spine03 bone to modify **/
+	UPROPERTY(EditAnywhere, Category = Spine_and_Pelvis)
+	FBoneReference Spine03_BoneToModify = FBoneReference("spine_03");
+
+	//** Pelvis bone to modify **/
+	UPROPERTY(EditAnywhere, Category = Spine_and_Pelvis)
+	FBoneReference PelvisBoneToModify = FBoneReference("pelvis");
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault))
 		FTransform HeadEffector;
