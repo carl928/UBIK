@@ -16,6 +16,54 @@ struct UBIKRUNTIME_API FAnimNode_UBIKSolver : public FAnimNode_SkeletalControlBa
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinShownByDefault))
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
 
+	//** Head bone to modify **/
+	UPROPERTY(EditAnywhere, Category = HeadBone)
+	FBoneReference HeadBoneToModify;
+
+	/** Left Clavicle bone to modify **/
+	UPROPERTY(EditAnywhere, Category = ClavicleBone)
+	FBoneReference LeftClavicleBoneToModify;
+
+	/** Right Clavicle Arm bone to modify **/
+	UPROPERTY(EditAnywhere, Category = ClavicleBone)
+	FBoneReference RightClavicleBoneToModify;
+
+	/** Left Upper Arm bone to modify **/
+	UPROPERTY(EditAnywhere, Category = UpperArm)
+	FBoneReference LeftUpperArmBoneToModify;
+
+	/** Right Upper Arm bone to modify **/
+	UPROPERTY(EditAnywhere, Category = UpperArm)
+	FBoneReference RightUpperArmBoneToModify;
+
+	/** Left Lower Arm bone to modify **/
+	UPROPERTY(EditAnywhere, Category = LowerArm)
+	FBoneReference LeftLowerArmBoneToModify;
+
+	/** Right Lower Arm bone to modify **/
+	UPROPERTY(EditAnywhere, Category = LowerArm)
+	FBoneReference RightLowerArmBoneToModify;
+
+	/** Left Hand bone to modify **/
+	UPROPERTY(EditAnywhere, Category = Hand)
+	FBoneReference LeftHandBoneToModify;
+
+	/** Right Hand bone to modify **/
+	UPROPERTY(EditAnywhere, Category = Hand)
+	FBoneReference RightHandBoneToModify;
+
+	//** Pelvis1 bone to modify **/
+	UPROPERTY(EditAnywhere, Category = Spine)
+	FBoneReference Spine01_BoneToModify;
+
+	//** Pelvis2 bone to modify **/
+	UPROPERTY(EditAnywhere, Category = Spine)
+	FBoneReference Spine02_BoneToModify;
+
+	//** Pelvis3 bone to modify **/
+	UPROPERTY(EditAnywhere, Category = Spine)
+	FBoneReference Spine03_BoneToModify;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault))
 		FTransform HeadEffector;
 	
