@@ -14,5 +14,5 @@ which was implemented in Unity and shared here: https://github.com/dabeschte/VRA
 * Limited support for twist bones
 
 ### Branches ###
-4.23 is the BP only version that i did the tutorials on.
-4.23_Plugin *(Work in progress)* is my current attempt at trying to convert it to cpp in a Plugin.
+* 4.23 is the BP only version that i did the tutorials on.
+* 4.23_Plugin *(Work in progress)* is my current attempt at trying to convert it to cpp in a Plugin.
