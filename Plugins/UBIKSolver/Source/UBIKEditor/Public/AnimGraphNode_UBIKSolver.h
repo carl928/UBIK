@@ -7,15 +7,16 @@
 #include "AnimGraphNode_UBIKSolver.generated.h"
 
 /**
- *
+ * Class that expose the actual node to the AnimGraph. 
+ * Here we have stuff like the title, color of node, tooltips etc.
  */
 UCLASS(meta = (Keywords = "UBIK Inverse Kinematics Solve IK Upper Body"))
 class UBIKEDITOR_API UAnimGraphNode_UBIKSolver : public UAnimGraphNode_SkeletalControlBase
 {
 	GENERATED_BODY()
 
-		UPROPERTY(EditAnywhere, Category = Settings)
-		FAnimNode_UBIKSolver Node;
+	UPROPERTY(EditAnywhere, Category = Settings)
+	FAnimNode_UBIKSolver Node;
 	
 public:
 	// UEdGraphNode interface

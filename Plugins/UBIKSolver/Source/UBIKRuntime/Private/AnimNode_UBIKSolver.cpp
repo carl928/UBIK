@@ -10,7 +10,7 @@ void FAnimNode_UBIKSolver::EvaluateSkeletalControl_AnyThread(FComponentSpacePose
 {
 }
 
-bool UUBIKCalibrate::Calibrate()
+FUBIKCalibrationData UUBIKCalibrate::Calibrate(float Height)
 {
-	return true;
+	return FUBIKCalibrationData();
 }

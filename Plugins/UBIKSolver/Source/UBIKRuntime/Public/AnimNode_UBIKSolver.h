@@ -6,6 +6,26 @@
 #include <Kismet/BlueprintFunctionLibrary.h>
 #include "AnimNode_UBIKSolver.generated.h"
 
+USTRUCT(BlueprintType)
+struct UBIKRUNTIME_API FUBIKCalibrationData
+{
+	GENERATED_USTRUCT_BODY();
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float ArmLength;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float LowerArmLength;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float UpperArmLength;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float HeadHandAngleLimitDot;
+};
+
+
 /**
  * UBIK Calibrate
  */
@@ -16,8 +36,8 @@ class UBIKRUNTIME_API UUBIKCalibrate : public UBlueprintFunctionLibrary
 
 public:
 
-	UFUNCTION(BlueprintCallable)
-	bool Calibrate();
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetCalibrationData", Keywords = "UBIK Calibrate"), Category = "UBIK")
+	static FUBIKCalibrationData Calibrate(float Height);
 };
 
 /**
@@ -28,8 +48,50 @@ struct UBIKRUNTIME_API FAnimNode_UBIKSolver : public FAnimNode_SkeletalControlBa
 {
     GENERATED_USTRUCT_BODY()
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinShownByDefault))
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault))
+	FTransform HeadEffector;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault))
+	FTransform LeftEffector;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault))
+	FTransform RightEffector;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault))
+	FUBIKCalibrationData CalibrationData;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Debug)
+	bool bDrawDebug = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
+	float UpperArmsDistance = 30.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
+	float DistinctShoulderRotationMultiplier = 60.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
+	float DistinctShoulderRotationLimit = 45.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
+	float ClavicleOffset = -32.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
+	float ElbowBaseOffsetAngle = 90.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
+	float ElbowYDistanceStart = .2f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
+	float ElbowYWeight = 130.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
+	float ElbowHandsRotSpeed = 15.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
+	float HeadHandsAngleLimit = 150.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
+	float HeadHandAngleOkSpan = 80.f;
 
 	//** Head bone to modify **/
 	UPROPERTY(EditAnywhere, Category = HeadBone)
@@ -82,48 +144,6 @@ struct UBIKRUNTIME_API FAnimNode_UBIKSolver : public FAnimNode_SkeletalControlBa
 	//** Pelvis bone to modify **/
 	UPROPERTY(EditAnywhere, Category = Spine_and_Pelvis)
 	FBoneReference PelvisBoneToModify = FBoneReference("pelvis");
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault))
-		FTransform HeadEffector;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault))
-		FTransform LeftEffector;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault))
-		FTransform RightEffector;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Debug)
-		bool bDrawDebug = false;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
-		float UpperArmsDistance = 30.f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
-		float DistinctShoulderRotationMultiplier = 60.f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
-		float DistinctShoulderRotationLimit = 45.f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
-		float ClavicleOffset = -32.f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
-		float ElbowBaseOffsetAngle = 90.f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
-		float ElbowYDistanceStart = .2f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
-		float ElbowYWeight = 130.f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
-		float ElbowHandsRotSpeed = 15.f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
-		float HeadHandsAngleLimit = 150.f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
-		float HeadHandAngleOkSpan = 80.f;
 
 	// FAnimNode_Base interface
 	virtual void GatherDebugData(FNodeDebugData& DebugData) override;
