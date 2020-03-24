@@ -11,46 +11,46 @@ struct UBIKRUNTIME_API FUBIKSettings
 
 public:
 	/* Defaults */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault, ToolTip = "Rotation multiplier, that determine how much Shoulder rotates to try reach hand, when it is moving away from ShoulderJoint. Usally keep between (0-70). 0 means the shoulder doesnt rotate, where 60 is a quite extreme shoulder rotation."))
-	float DistinctShoulderRotationMultiplier;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (ToolTip = "Rotation multiplier, that determine how much Shoulder rotates to try reach hand, when it is moving away from ShoulderJoint. Usally keep between (0-70). 0 means the shoulder doesnt rotate, where 60 is a quite extreme shoulder rotation."))
+	float DistinctShoulderRotationMultiplier = 0.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
-	float DistinctShoulderRotationLimit;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
+	float DistinctShoulderRotationLimit = 0.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
-	float ClavicleOffset;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
+	float ClavicleOffset = 0.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
-	float ElbowBaseOffsetAngle;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
+	float ElbowBaseOffsetAngle = 0.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
-	float ElbowYDistanceStart;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
+	float ElbowYDistanceStart = 0.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
-	float ElbowYWeight;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
+	float ElbowYWeight = 0.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
-	float ElbowHandsRotSpeed;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
+	float ElbowHandsRotSpeed = 0.f;
 
 	/* CalibrationData */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ToolTip = ""))
-	float ArmLength;
+	float ArmLength = 0.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault, ToolTip = ""))
-	float UpperArmsDistance;
+	float UpperArmsDistance = 0.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ToolTip = ""))
-	float LowerArmLength;
+	float LowerArmLength = 0.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ToolTip = ""))
-	float UpperArmLength;
+	float UpperArmLength = 0.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ToolTip = ""))
-	float HeadHandAngleLimit;
+	float HeadHandAngleLimit = 0.f;
 
 	/* Calculated based on the HeadHandAngleLimit */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ToolTip = ""))
-	float HeadHandAngleLimitDot;
+	float HeadHandAngleLimitDot = 0.f;
 };
 
 USTRUCT(BlueprintType)
