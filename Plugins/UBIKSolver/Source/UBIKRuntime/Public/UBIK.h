@@ -108,6 +108,6 @@ class UBIKRUNTIME_API UUBIK : public UObject
 
 public:
 
-	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetCalibrationData", Keywords = "UBIK Calibrate"), Category = "UBIK")
-	static FUBIKSettings Initialize(FUBIKDefaults Defaults, FUBIKCalibrationData CalibrationData);
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetUBIKSettings", Keywords = "UBIK Calibrate"), Category = "UBIK")
+	static FUBIKSettings Initialize(FUBIKDefaults Defaults, FUBIKCalibrationData Calibration);
 };

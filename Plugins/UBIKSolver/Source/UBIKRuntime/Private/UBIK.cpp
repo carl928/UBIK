@@ -2,11 +2,10 @@
 
 #include "UBIK.h"
 
-FUBIKSettings UUBIK::Initialize(FUBIKDefaults Defaults, FUBIKCalibrationData CalibrationData)
+FUBIKSettings UUBIK::Initialize(FUBIKDefaults Defaults, FUBIKCalibrationData Calibration)
 {
 	FUBIKSettings Settings;
-	//Settings.
-	//CalibrationData.ArmLength = (Height / 2) - 0;
-	//return CalibrationData;
+	Settings.ArmLength = (Calibration.Height / 2) - Calibration.UpperArmsDistance;
+
 	return Settings;
 }
