@@ -12,32 +12,32 @@ struct UBIKRUNTIME_API FUBIKSettings
 public:
 	/* Defaults */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault, ToolTip = "Rotation multiplier, that determine how much Shoulder rotates to try reach hand, when it is moving away from ShoulderJoint. Usally keep between (0-70). 0 means the shoulder doesnt rotate, where 60 is a quite extreme shoulder rotation."))
-	float DistinctShoulderRotationMultiplier = 60.f;
+	float DistinctShoulderRotationMultiplier;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
-	float DistinctShoulderRotationLimit = 45.f;
+	float DistinctShoulderRotationLimit;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
-	float ClavicleOffset = -32.f;
+	float ClavicleOffset;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
-	float ElbowBaseOffsetAngle = 90.f;
+	float ElbowBaseOffsetAngle;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
-	float ElbowYDistanceStart = .2f;
+	float ElbowYDistanceStart;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
-	float ElbowYWeight = 130.f;
+	float ElbowYWeight;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
-	float ElbowHandsRotSpeed = 15.f;
+	float ElbowHandsRotSpeed;
 
 	/* CalibrationData */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ToolTip = ""))
 	float ArmLength;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault, ToolTip = ""))
-	float UpperArmsDistance = 30.f;
+	float UpperArmsDistance;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ToolTip = ""))
 	float LowerArmLength;
