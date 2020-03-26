@@ -3,6 +3,7 @@
 #pragma once
 
 #include "AnimGraphNode_SkeletalControlBase.h"
+//#include "AnimGraphNode_Base.h"
 #include "AnimNode_UBIKSolver.h"
 #include "AnimGraphNode_UBIKSolver.generated.h"
 
@@ -12,6 +13,7 @@
  */
 UCLASS(meta = (Keywords = "UBIK Inverse Kinematics Solve IK Upper Body"))
 class UBIKEDITOR_API UAnimGraphNode_UBIKSolver : public UAnimGraphNode_SkeletalControlBase
+//class UBIKEDITOR_API UAnimGraphNode_UBIKSolver : public UAnimGraphNode_Base
 {
 	GENERATED_BODY()
 
@@ -24,8 +26,8 @@ public:
 	virtual FText GetTooltipText() const override;
 	// End of UEdGraphNode interface
 
+	/* Only valid if i base this off of FAnimNode_SkeletalControlBase */
 	// UAnimGraphNode_SkeletalControlBase interface
 	virtual const FAnimNode_SkeletalControlBase* GetNode() const override { return &Node; }
 	// End of UAnimGraphNode_SkeletalControlBase interface
-
 };

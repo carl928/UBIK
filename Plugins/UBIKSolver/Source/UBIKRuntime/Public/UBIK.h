@@ -108,6 +108,10 @@ class UBIKRUNTIME_API UUBIK : public UObject
 
 public:
 
+	/** Call this to get the UBIKSettings struct, that is needed on the AnimGraph node. **/
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetUBIKSettings", Keywords = "UBIK Calibrate"), Category = "UBIK")
 	static FUBIKSettings Initialize(FUBIKDefaults Defaults, FUBIKCalibrationData Calibration);
+
+	/** Adds Vector to Transform in LocalSpace **/
+	static FTransform AddLocalOffset(const FTransform Transform, const FVector Vector);
 };

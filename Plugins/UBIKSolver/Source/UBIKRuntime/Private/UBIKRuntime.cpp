@@ -2,6 +2,8 @@
 
 #include "UBIKRuntime.h"
 
+DEFINE_LOG_CATEGORY(UBIKRuntimeLog);
+
 #define LOCTEXT_NAMESPACE "UBIKRuntime"
 
 void FUBIKRuntime::StartupModule()

@@ -2,7 +2,9 @@
 
 #pragma once
 
+#include "CoreMinimal.h"
 #include "BoneControllers/AnimNode_SkeletalControlBase.h"
+//#include "Animation/AnimNodeBase.h"
 #include "UBIK.h"
 #include "AnimNode_UBIKSolver.generated.h"
 
@@ -11,21 +13,28 @@
  */
 USTRUCT(BlueprintInternalUseOnly)
 struct UBIKRUNTIME_API FAnimNode_UBIKSolver : public FAnimNode_SkeletalControlBase
+//struct UBIKRUNTIME_API FAnimNode_UBIKSolver : public FAnimNode_Base
 {
-    GENERATED_USTRUCT_BODY()
+	GENERATED_USTRUCT_BODY()
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault, ToolTip = "Feed in the HMD transform in WorldSpace."))
-	FTransform HeadEffector;
+public:
+	/** Feed in the HMD transform in WorldSpace. **/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault))
+	FTransform HeadWorldTransform;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault, ToolTip = "Feed in the Left MotionController in WorldSpace."))
-	FTransform LeftEffector;
+	/** Feed in the Left MotionController in WorldSpace. **/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault))
+	FTransform LeftWorldTransform;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault, ToolTip = "Feed in the Right MotionController in WorldSpace."))
-	FTransform RightEffector;
+	/** Feed in the Right MotionController in WorldSpace. **/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault))
+	FTransform RightWorldTransform;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault, ToolTip = ""))
+	/** These settings will be returned by calling the GetUBIKSettings function. **/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault))
 	FUBIKSettings Settings;
 
+	/** Set this to get debug draws of certain internal transforms. Used only for debugging purposes. **/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Debug)
 	bool bDrawDebug = false;
 
@@ -81,13 +90,19 @@ struct UBIKRUNTIME_API FAnimNode_UBIKSolver : public FAnimNode_SkeletalControlBa
 	UPROPERTY(EditAnywhere, Category = Spine_and_Pelvis)
 	FBoneReference PelvisBoneToModify = FBoneReference("pelvis");
 
+	// Input link (Only in use if base is FAnimNode_Base, otherwise it's already defined inside the FAnimNode_SkeletalControlBase)
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Links)
+	//FComponentSpacePoseLink ComponentPose;
+
 	// FAnimNode_Base interface
 	virtual void GatherDebugData(FNodeDebugData& DebugData) override;
+	//virtual void EvaluateComponentSpace_AnyThread(FComponentSpacePoseContext& Output);
 	// End of FAnimNode_Base interface
 
 	// FAnimNode_SkeletalControlBase interface
 	virtual void EvaluateSkeletalControl_AnyThread(FComponentSpacePoseContext& Output, TArray<FBoneTransform>& OutBoneTransforms) override;
 	// End of FAnimNode_SkeletalControlBase interface
 
+	void ConvertTransforms(FTransform& LeftTransform);
 };
 

@@ -2,6 +2,8 @@
 
 #include "UBIKEditor.h"
 
+DEFINE_LOG_CATEGORY(UBIKEditorLog);
+
 #define LOCTEXT_NAMESPACE "UBIKEditor"
 
 void FUBIKEditor::StartupModule()
