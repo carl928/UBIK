@@ -1,6 +1,7 @@
 // 2020 Sticky Snout Studio (Jonas Mølgaard)
 
 #include "AnimNode_UBIKSolver.h"
+#include "UBIKRuntime.h"
 
 void FAnimNode_UBIKSolver::GatherDebugData(FNodeDebugData& DebugData)
 {

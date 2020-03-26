@@ -1,6 +1,7 @@
 // 2020 Sticky Snout Studio (Jonas Mølgaard)
 
 #include "..\Public\AnimGraphNode_UBIKSolver.h"
+#include "UBIKEditor.h"
 
 #define LOCTEXT_NAMESPACE "A3Nodes"
 
