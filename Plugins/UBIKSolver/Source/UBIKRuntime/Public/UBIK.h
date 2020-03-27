@@ -114,4 +114,5 @@ public:
 
 	/** Adds Vector to Transform in LocalSpace **/
 	static FTransform AddLocalOffset(const FTransform Transform, const FVector Vector);
+	static FTransform RotatePointAroundPivot(FTransform Point, FTransform Pivot, FRotator Delta);
 };

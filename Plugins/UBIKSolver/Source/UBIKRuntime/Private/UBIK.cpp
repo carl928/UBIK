@@ -35,3 +35,10 @@ FTransform UUBIK::AddLocalOffset(const FTransform Transform, const FVector Vecto
 		Inversed.GetScale3D()
 	).Inverse();
 }
+
+FTransform UUBIK::RotatePointAroundPivot(FTransform Point, FTransform Pivot, FRotator Delta)
+{
+	FTransform PointInPivotSpace = Point * Pivot.Inverse();
+	FTransform RotatedInPivotSpace = PointInPivotSpace * FTransform(Delta, FVector::ZeroVector, FVector::OneVector);
+	return RotatedInPivotSpace * Pivot;
+}

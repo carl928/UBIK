@@ -105,6 +105,7 @@ public:
 	virtual bool IsValidToEvaluate(const USkeleton* Skeleton, const FBoneContainer& RequiredBones);
 	// End of FAnimNode_SkeletalControlBase interface
 
+protected:
 	FTransform ComponentSpace;
 
 	FTransform ComponentSpaceW;
@@ -115,10 +116,19 @@ public:
 	FTransform RightTransformC;
 	FTransform ShoulderTransformC;
 	
+	/** ShoulderTransformW inverted **/
+	FTransform ShoulderTransform;
+
 	FTransform HeadTransformS;
 	FTransform LeftTransformS;
 	FTransform RightTransformS;
 
 	void ConvertTransforms();
+	void SetShoulder();
+
+private:
+	FVector GetShoulderLocation();
+	FRotator GetShoulderRotationFromHead();
+	FRotator GetShoulderRotationFromHands();
 };
 
