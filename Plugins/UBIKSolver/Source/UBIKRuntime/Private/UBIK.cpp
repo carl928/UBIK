@@ -22,6 +22,7 @@ FUBIKSettings UUBIK::Initialize(FUBIKDefaults Defaults, FUBIKCalibrationData Cal
 	Settings.ElbowYDistanceStart = Defaults.ElbowYDistanceStart;
 	Settings.ElbowYWeight = Defaults.ElbowYWeight;
 	Settings.UpperArmsDistance = Calibration.UpperArmsDistance;
+	Settings.OkSpanAngle = Defaults.OkSpanAngle;
 
 	return Settings;
 }

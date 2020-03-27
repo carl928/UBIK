@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "BoneControllers/AnimNode_SkeletalControlBase.h"
 //#include "Animation/AnimNodeBase.h"
 #include "UBIK.h"
@@ -21,7 +22,6 @@ public:
 	/** Feed in the HMD transform in WorldSpace. **/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault))
 	FTransform HeadTransformW;
-	;
 	
 	/** Feed in the Left MotionController in WorldSpace. **/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault))
@@ -105,7 +105,7 @@ public:
 	virtual bool IsValidToEvaluate(const USkeleton* Skeleton, const FBoneContainer& RequiredBones);
 	// End of FAnimNode_SkeletalControlBase interface
 
-protected:
+private:
 	FTransform ComponentSpace;
 
 	FTransform ComponentSpaceW;
@@ -123,12 +123,15 @@ protected:
 	FTransform LeftTransformS;
 	FTransform RightTransformS;
 
+	float LeftHeadHandAngle;
+	float RightHeadHandAngle;
+
 	void ConvertTransforms();
 	void SetShoulder();
 
-private:
 	FVector GetShoulderLocation();
 	FRotator GetShoulderRotationFromHead();
 	FRotator GetShoulderRotationFromHands();
+	float GetHeadHandAngle(float LastAngle, FVector Hand, FVector HandHeadDelta);
 };
 

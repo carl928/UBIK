@@ -32,25 +32,27 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 	float ElbowHandsRotSpeed = 0.f;
 
-	/* CalibrationData */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ToolTip = ""))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 	float ArmLength = 0.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault, ToolTip = ""))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
 	float UpperArmsDistance = 0.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ToolTip = ""))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 	float LowerArmLength = 0.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ToolTip = ""))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 	float UpperArmLength = 0.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ToolTip = ""))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 	float HeadHandAngleLimit = 0.f;
 
 	/* Calculated based on the HeadHandAngleLimit */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ToolTip = ""))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (ToolTip = ""))
 	float HeadHandAngleLimitDot = 0.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
+	float OkSpanAngle = 0.f;
 };
 
 USTRUCT(BlueprintType)
@@ -80,9 +82,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 	float ElbowHandsRotSpeed = 15.f;
 
-	// TODO: I may remove this setting actually, and just hardcode this plus the previous OkSpanAngle
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ToolTip = ""))
+	/** I may remove this setting actually, and just hardcode **/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 	float HeadHandAngleLimit = 150.f;
+
+	/** I may remove this setting actually, and just hardcode **/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
+	float OkSpanAngle = 80.f;
 };
 
 USTRUCT(BlueprintType)
