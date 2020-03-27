@@ -20,15 +20,16 @@ struct UBIKRUNTIME_API FAnimNode_UBIKSolver : public FAnimNode_SkeletalControlBa
 public:
 	/** Feed in the HMD transform in WorldSpace. **/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault))
-	FTransform HeadWorldTransform;
+	FTransform HeadTransformW;
+	;
 	
 	/** Feed in the Left MotionController in WorldSpace. **/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault))
-	FTransform LeftWorldTransform;
+	FTransform LeftTransformW;
 	
 	/** Feed in the Right MotionController in WorldSpace. **/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault))
-	FTransform RightWorldTransform;
+	FTransform RightTransformW;
 
 	/** These settings will be returned by calling the GetUBIKSettings function. **/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault))
@@ -101,8 +102,23 @@ public:
 
 	// FAnimNode_SkeletalControlBase interface
 	virtual void EvaluateSkeletalControl_AnyThread(FComponentSpacePoseContext& Output, TArray<FBoneTransform>& OutBoneTransforms) override;
+	virtual bool IsValidToEvaluate(const USkeleton* Skeleton, const FBoneContainer& RequiredBones);
 	// End of FAnimNode_SkeletalControlBase interface
 
-	void ConvertTransforms(FTransform& LeftTransform);
+	FTransform ComponentSpace;
+
+	FTransform ComponentSpaceW;
+	FTransform ShoulderTransformW;
+
+	FTransform HeadTransformC;
+	FTransform LeftTransformC;
+	FTransform RightTransformC;
+	FTransform ShoulderTransformC;
+	
+	FTransform HeadTransformS;
+	FTransform LeftTransformS;
+	FTransform RightTransformS;
+
+	void ConvertTransforms();
 };
 
