@@ -25,11 +25,11 @@ public:
 	
 	/** Feed in the Left MotionController in WorldSpace. **/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault))
-	FTransform LeftTransformW;
+	FTransform LeftHandTransformW;
 	
 	/** Feed in the Right MotionController in WorldSpace. **/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault))
-	FTransform RightTransformW;
+	FTransform RightHandTransformW;
 
 	/** These settings will be returned by calling the GetUBIKSettings function. **/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (PinShownByDefault))
@@ -106,22 +106,25 @@ public:
 	// End of FAnimNode_SkeletalControlBase interface
 
 private:
-	FTransform ComponentSpace;
-
 	FTransform ComponentSpaceW;
 	FTransform ShoulderTransformW;
 
 	FTransform HeadTransformC;
-	FTransform LeftTransformC;
-	FTransform RightTransformC;
+	FTransform LeftHandTransformC;
+	FTransform RightHandTransformC;
 	FTransform ShoulderTransformC;
-	
-	/** ShoulderTransformW inverted **/
+	FTransform LeftClavicleC;	// TODO: May be able to turn into a FRotator instead
+	FTransform RightClavicleC;	// TODO: May be able to turn into a FRotator instead
+
+	/** WorldSpace inverted **/
 	FTransform ShoulderTransform;
+	FTransform ComponentSpace;
 
 	FTransform HeadTransformS;
-	FTransform LeftTransformS;
-	FTransform RightTransformS;
+	FTransform LeftHandTransformS;
+	FTransform RightHandTransformS;
+	FTransform LeftUpperArmTransformS;
+	FTransform RightUpperArmTransformS;
 
 	float LeftHeadHandAngle;
 	float RightHeadHandAngle;
@@ -133,5 +136,8 @@ private:
 	FRotator GetShoulderRotationFromHead();
 	FRotator GetShoulderRotationFromHands();
 	float GetHeadHandAngle(float LastAngle, FVector Hand, FVector HandHeadDelta);
+	void SetLeftUpperArm();
+	void SetRightUpperArm();
+	FTransform RotateUpperArm(bool IsLeftArm, FVector HandTranslation);
 };
 
