@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "BoneControllers/AnimNode_SkeletalControlBase.h"
-//#include "Animation/AnimNodeBase.h"
+#include "Components/SkeletalMeshComponent.h"
 #include "UBIK.h"
 #include "AnimNode_UBIKSolver.generated.h"
 
@@ -14,7 +14,6 @@
  */
 USTRUCT(BlueprintInternalUseOnly)
 struct UBIKRUNTIME_API FAnimNode_UBIKSolver : public FAnimNode_SkeletalControlBase
-//struct UBIKRUNTIME_API FAnimNode_UBIKSolver : public FAnimNode_Base
 {
 	GENERATED_USTRUCT_BODY()
 
@@ -91,23 +90,30 @@ public:
 	UPROPERTY(EditAnywhere, Category = Spine_and_Pelvis)
 	FBoneReference PelvisBoneToModify = FBoneReference("pelvis");
 
-	// Input link (Only in use if base is FAnimNode_Base, otherwise it's already defined inside the FAnimNode_SkeletalControlBase)
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Links)
-	//FComponentSpacePoseLink ComponentPose;
-
 	// FAnimNode_Base interface
 	virtual void GatherDebugData(FNodeDebugData& DebugData) override;
-	//virtual void EvaluateComponentSpace_AnyThread(FComponentSpacePoseContext& Output);
 	// End of FAnimNode_Base interface
 
 	// FAnimNode_SkeletalControlBase interface
 	virtual void EvaluateSkeletalControl_AnyThread(FComponentSpacePoseContext& Output, TArray<FBoneTransform>& OutBoneTransforms) override;
-	virtual bool IsValidToEvaluate(const USkeleton* Skeleton, const FBoneContainer& RequiredBones);
+	virtual bool IsValidToEvaluate(const USkeleton* Skeleton, const FBoneContainer& RequiredBones) override;
+	virtual void UpdateInternal(const FAnimationUpdateContext& Context) override;
 	// End of FAnimNode_SkeletalControlBase interface
 
 private:
+	/** Internal use - Used for interps. */
+	float DeltaTime;
+
 	FTransform ComponentSpaceW;
 	FTransform ShoulderTransformW;
+	FTransform LeftUpperArmTransformW;
+	FTransform RightUpperArmTransformW;
+	FTransform LeftLowerArmTransformW;
+	FTransform RightLowerArmTransformW;
+
+
+	/** Must check if it's valid. Can be null. **/
+	USkeletalMeshComponent* MeshComponent;
 
 	FTransform HeadTransformC;
 	FTransform LeftHandTransformC;
@@ -125,19 +131,31 @@ private:
 	FTransform RightHandTransformS;
 	FTransform LeftUpperArmTransformS;
 	FTransform RightUpperArmTransformS;
+	FTransform LeftLowerArmTransformS;
+	FTransform RightLowerArmTransformS;
 
 	float LeftHeadHandAngle;
 	float RightHeadHandAngle;
 
+	float LeftElbowHandAngle;
+	float RightElbowHandAngle;
+
 	void ConvertTransforms();
 	void SetShoulder();
-
 	FVector GetShoulderLocation();
 	FRotator GetShoulderRotationFromHead();
 	FRotator GetShoulderRotationFromHands();
 	float GetHeadHandAngle(float LastAngle, FVector Hand, FVector HandHeadDelta);
+
 	void SetLeftUpperArm();
 	void SetRightUpperArm();
 	FTransform RotateUpperArm(bool IsLeftArm, FVector HandTranslation);
+
+	void ResetUpperArmsLocation();
+	void SolveArms();
+	void SetElbowBasePosition(FVector UpperArm, FVector Hand, bool IsLeftArm, FTransform& UpperArmTransform, FTransform& LowerArmTransform);
+	float RotateElbowByHandPosition(FVector Hand);
+	float RotateElbowByHandRotation(FTransform LowerArm, FRotator Hand);
+	void RotateElbow(float Angle, FTransform UpperArm, FTransform LowerArm, FVector HandLoc, bool IsLeftArm, FTransform& NewUpperArm, FTransform& NewLowerArm);
 };
 

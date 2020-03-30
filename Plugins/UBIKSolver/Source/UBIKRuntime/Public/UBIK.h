@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "Kismet/KismetMathLibrary.h"
 #include "UBIK.generated.h"
 
 USTRUCT(BlueprintType)
@@ -118,7 +119,18 @@ public:
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetUBIKSettings", Keywords = "UBIK Calibrate"), Category = "UBIK")
 	static FUBIKSettings Initialize(FUBIKDefaults Defaults, FUBIKCalibrationData Calibration);
 
-	/** Adds Vector to Transform in LocalSpace **/
+	/** Adds Vector to Transform in LocalSpace. **/
 	static FTransform AddLocalOffset(const FTransform Transform, const FVector Vector);
+
+	/** Rotates the Point around Pivot, by given Delta rotation. **/
 	static FTransform RotatePointAroundPivot(FTransform Point, FTransform Pivot, FRotator Delta);
+
+	/** Angle snapping mitigation function.
+	* Supply last angle, current angle and what threshold not to pass.
+	* If outside that limit, it will keep the last angle, otherwise the current. **/
+	static float SafeguardAngle(float Last, float Current, float Threshold);
+
+	/** Given lengths of the different sides in a triangle,
+	* the angle between Adjacent1 and Adjacent2 are returned. **/
+	static float CosineRule(float Adjacent1, float Adjacent2, float Opposite);
 };

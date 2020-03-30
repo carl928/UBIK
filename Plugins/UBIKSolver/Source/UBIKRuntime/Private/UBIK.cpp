@@ -43,3 +43,18 @@ FTransform UUBIK::RotatePointAroundPivot(FTransform Point, FTransform Pivot, FRo
 	FTransform RotatedInPivotSpace = PointInPivotSpace * FTransform(Delta, FVector::ZeroVector, FVector::OneVector);
 	return RotatedInPivotSpace * Pivot;
 }
+
+float UUBIK::SafeguardAngle(float Last, float Current, float Threshold)
+{
+	return (FMath::Abs(Last - Current) > Threshold) ? (Last) : (Current);
+}
+
+float UUBIK::CosineRule(float Adjacent1, float Adjacent2, float Opposite)
+{
+	return FMath::RadiansToDegrees(
+		FMath::Acos(
+		((Adjacent1 * Adjacent1) + (Adjacent2 * Adjacent2) - (Opposite * Opposite)) /
+			(Adjacent1 * Adjacent2 * 2.f)
+		)
+	);
+}
