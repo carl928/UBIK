@@ -19,10 +19,12 @@ FUBIKSettings UUBIK::Initialize(FUBIKDefaults Defaults, FUBIKCalibrationData Cal
 	Settings.DistinctShoulderRotationMultiplier = Defaults.DistinctShoulderRotationMultiplier;
 	Settings.ElbowBaseOffsetAngle = Defaults.ElbowBaseOffsetAngle;
 	Settings.ElbowHandsRotSpeed = Defaults.ElbowHandsRotSpeed;
+	Settings.ElbowRotFromHandRotAlpha = Defaults.ElbowRotFromHandRotAlpha;
 	Settings.ElbowYDistanceStart = Defaults.ElbowYDistanceStart;
 	Settings.ElbowYWeight = Defaults.ElbowYWeight;
 	Settings.UpperArmsDistance = Calibration.UpperArmsDistance;
 	Settings.OkSpanAngle = Defaults.OkSpanAngle;
+	Settings.BaseCharOffset = Defaults.BaseCharOffset;
 
 	return Settings;
 }

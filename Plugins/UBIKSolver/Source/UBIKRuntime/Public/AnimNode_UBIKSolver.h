@@ -111,7 +111,6 @@ private:
 	FTransform LeftLowerArmTransformW;
 	FTransform RightLowerArmTransformW;
 
-
 	/** Must check if it's valid. Can be null. **/
 	USkeletalMeshComponent* MeshComponent;
 
@@ -121,6 +120,7 @@ private:
 	FTransform ShoulderTransformC;
 	FTransform LeftClavicleC;	// TODO: May be able to turn into a FRotator instead
 	FTransform RightClavicleC;	// TODO: May be able to turn into a FRotator instead
+	FTransform BaseCharTransformC;
 
 	/** WorldSpace inverted **/
 	FTransform ShoulderTransform;
@@ -154,8 +154,10 @@ private:
 	void ResetUpperArmsLocation();
 	void SolveArms();
 	void SetElbowBasePosition(FVector UpperArm, FVector Hand, bool IsLeftArm, FTransform& UpperArmTransform, FTransform& LowerArmTransform);
-	float RotateElbowByHandPosition(FVector Hand);
+	float RotateElbowByHandPosition(FVector Hand, bool IsLeftArm);
 	float RotateElbowByHandRotation(FTransform LowerArm, FRotator Hand);
 	void RotateElbow(float Angle, FTransform UpperArm, FTransform LowerArm, FVector HandLoc, bool IsLeftArm, FTransform& NewUpperArm, FTransform& NewLowerArm);
+
+	FTransform GetBaseCharTransform();
 };
 

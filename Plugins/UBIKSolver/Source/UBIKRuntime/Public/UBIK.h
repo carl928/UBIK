@@ -33,6 +33,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 	float ElbowHandsRotSpeed = 0.f;
 
+	/** How much influence the hands rotation will have on elbow rotation. Set between 0-1. **/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
+	float ElbowRotFromHandRotAlpha = 0.f;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 	float ArmLength = 0.f;
 
@@ -54,6 +58,10 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 	float OkSpanAngle = 0.f;
+
+	/** Offset from Shoulder to Pelvis **/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
+	FVector BaseCharOffset;
 };
 
 USTRUCT(BlueprintType)
@@ -83,6 +91,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 	float ElbowHandsRotSpeed = 15.f;
 
+	/** How much influence the hands rotation will have on elbow rotation. Set between 0-1. **/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
+	float ElbowRotFromHandRotAlpha = 0.6f;
+
 	/** I may remove this setting actually, and just hardcode **/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 	float HeadHandAngleLimit = 150.f;
@@ -90,6 +102,10 @@ public:
 	/** I may remove this setting actually, and just hardcode **/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 	float OkSpanAngle = 80.f;
+
+	/** Offset from Shoulder to Pelvis **/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
+	FVector BaseCharOffset = FVector(0.f, 0.f, 55.25f);
 };
 
 USTRUCT(BlueprintType)
