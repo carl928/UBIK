@@ -2,7 +2,7 @@
 
 #include "UBIKEditor.h"
 
-DEFINE_LOG_CATEGORY(UBIKEditorLog);
+DEFINE_LOG_CATEGORY(LogUBIKEditor);
 
 #define LOCTEXT_NAMESPACE "UBIKEditor"
 

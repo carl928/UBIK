@@ -1,8 +1,8 @@
-// 2020 Sticky Snout Studio (Jonas Mølgaard)
+// 2020 Sticky Snout Studio (Jonas Molgaard)
 
 #include "UBIKRuntime.h"
 
-DEFINE_LOG_CATEGORY(UBIKRuntimeLog);
+DEFINE_LOG_CATEGORY(LogUBIKRuntime);
 
 #define LOCTEXT_NAMESPACE "UBIKRuntime"
 

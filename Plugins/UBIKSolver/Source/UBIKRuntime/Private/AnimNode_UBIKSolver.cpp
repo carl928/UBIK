@@ -1,4 +1,4 @@
-// 2020 Sticky Snout Studio (Jonas Mølgaard)
+// 2020 Sticky Snout Studio (Jonas Molgaard)
 
 #include "AnimNode_UBIKSolver.h"
 #include "UBIKRuntime.h"
@@ -12,12 +12,14 @@ void FAnimNode_UBIKSolver::GatherDebugData(FNodeDebugData& DebugData)
 /* Only valid if i base this off FAnimNode_SkeletalControlBase */
 void FAnimNode_UBIKSolver::EvaluateSkeletalControl_AnyThread(FComponentSpacePoseContext& Output, TArray<FBoneTransform>& OutBoneTransforms)
 {
-	//UE_LOG(UBIKRuntimeLog, Display, TEXT("DeltaTime: %f"), DeltaTime);
+	check(OutBoneTransforms.Num() == 0);
 
+	//UE_LOG(UBIKRuntimeLog, Display, TEXT("DeltaTime: %f"), DeltaTime);
 	ComponentSpaceW = Output.AnimInstanceProxy->GetComponentTransform();
 	ComponentSpace = ComponentSpaceW.Inverse();
 
 	MeshComponent = Output.AnimInstanceProxy->GetSkelMeshComponent();
+	World = MeshComponent->GetWorld();
 
 	ConvertTransforms();
 	
@@ -32,12 +34,46 @@ void FAnimNode_UBIKSolver::EvaluateSkeletalControl_AnyThread(FComponentSpacePose
 
 	if (bDrawDebug)
 	{
-		// DebugDraw();
+		DrawDebug();
 	}
+	
+	// Stuff from the AnimBP
+	Head = HeadTransformC.Rotator();
+	Spine03 = UKismetMathLibrary::RInterpTo(Spine03, BaseCharTransformC.Rotator(), DeltaTime, Settings.BodyInterSpeed);
+	Spine02 = UKismetMathLibrary::RInterpTo(Spine02, Spine03, DeltaTime, Settings.BodyInterSpeed);
+	Spine01 = UKismetMathLibrary::RInterpTo(Spine01, Spine02, DeltaTime, Settings.BodyInterSpeed);
+	Pelvis = FTransform(Spine01, BaseCharTransformC.GetTranslation(), FVector::OneVector);
+
+	Clavicle_l = LeftClavicleC.Rotator();
+	UpperArm_l = LeftUpperArmTransformC.Rotator();
+	LowerArm_l = LeftLowerArmTransformC.Rotator();
+	Hand_l = UKismetMathLibrary::ComposeRotators(FRotator(0.f, -25.f, 180.f), LeftHandTransformC.Rotator());
+
+	Clavicle_r = UKismetMathLibrary::ComposeRotators(FRotator(180.f, 0.f, 0.f), RightClavicleC.Rotator());
+	UpperArm_r = UKismetMathLibrary::ComposeRotators(FRotator(0.f, 180.f, 180.f), RightUpperArmTransformC.Rotator());
+	//UE_LOG(LogUBIKRuntime, Display, TEXT("UpperArm_r: %s"), *UpperArm_r.ToString());
+	LowerArm_r = UKismetMathLibrary::ComposeRotators(FRotator(0.f, 180.f, 180.f), RightLowerArmTransformC.Rotator());
+	Hand_r = UKismetMathLibrary::ComposeRotators(FRotator(180.f, 25.f, 180.f), LeftHandTransformC.Rotator());
+	//UE_LOG(LogUBIKRuntime, Display, TEXT("Clavicle_r: %s"), *Clavicle_r.ToString());
+
+	/*
+	const FBoneContainer& BoneContainer = Output.Pose.GetPose().GetBoneContainer();
+	// UE_LOG(LogUBIKRuntime, Display, TEXT("BoneContainer.GetNumBones : %i"), BoneContainer.GetNumBones()); // Returns 68
+	FCompactPoseBoneIndex CompactPoseBoneToModify = HeadBoneToModify.GetCompactPoseIndex(BoneContainer);
+	
+	int32 HeadBoneIndex = BoneContainer.GetPoseBoneIndexForBoneName(HeadBoneToModify.BoneName);
+
+	if (HeadBoneIndex != INDEX_NONE)
+	{
+		OutBoneTransforms.Add(FBoneTransform(CompactPoseBoneToModify, HeadTransformC));
+	}
+	UE_LOG(LogUBIKRuntime, Display, TEXT("CompactPoseBoneToModify: %i"), CompactPoseBoneToModify.GetInt());
+*/
 }
 
 bool FAnimNode_UBIKSolver::IsValidToEvaluate(const USkeleton* Skeleton, const FBoneContainer& RequiredBones)
 {
+	//UE_LOG(LogUBIKRuntime, Display, TEXT("RequiredBones: i%"), RequiredBones.GetNumBones());
 	return true;
 }
 
@@ -264,6 +300,11 @@ void FAnimNode_UBIKSolver::SolveArms()
 	LeftUpperArmTransformW = LeftUpperArmTransformS * ShoulderTransformW;
 	LeftLowerArmTransformW = LeftLowerArmTransformS * ShoulderTransformW;
 
+	float Roll = FMath::Max((LeftHandTransformW.GetTranslation() - LeftUpperArmTransformW.GetTranslation()).Z, 0.f);
+	FTransform UpperArmS = LeftUpperArmTransformW * ComponentSpace;
+	LeftUpperArmTransformC = FTransform(UKismetMathLibrary::ComposeRotators(FRotator(0.f, 0.f, Roll), UpperArmS.Rotator()));
+	LeftLowerArmTransformC = LeftLowerArmTransformW * ComponentSpace;
+
 	/** RIGHT ARM **/
 	HandLoc = RightHandTransformS.GetTranslation();
 	HandRot = RightHandTransformS.GetRotation().Rotator();
@@ -288,6 +329,11 @@ void FAnimNode_UBIKSolver::SolveArms()
 	RotateElbow(RightElbowHandAngle + BaseAngle, UpperArmBase, LowerArmBase, HandLoc, false, RightUpperArmTransformS, RightLowerArmTransformS);
 	RightUpperArmTransformW = RightUpperArmTransformS * ShoulderTransformW;
 	RightLowerArmTransformW = RightLowerArmTransformS * ShoulderTransformW;
+
+	Roll = FMath::Max((RightHandTransformW.GetTranslation() - RightUpperArmTransformW.GetTranslation()).Z, 0.f);
+	UpperArmS = RightUpperArmTransformW * ComponentSpace;
+	RightUpperArmTransformC = FTransform(UKismetMathLibrary::ComposeRotators(FRotator(0.f, 0.f, Roll), UpperArmS.Rotator()));
+	RightLowerArmTransformC = RightLowerArmTransformW * ComponentSpace;
 }
 
 void FAnimNode_UBIKSolver::SetElbowBasePosition(FVector UpperArm, FVector Hand, bool IsLeftArm, FTransform& UpperArmTransform, FTransform& LowerArmTransform)
@@ -375,4 +421,24 @@ FTransform FAnimNode_UBIKSolver::GetBaseCharTransform()
 	return FTransform(ShoulderTransformC.GetRotation(), ShoulderTransformC.GetTranslation() + Settings.BaseCharOffset, FVector::OneVector);
 }
 
+void FAnimNode_UBIKSolver::DrawDebug()
+{
+	DrawAxes(LeftHandTransformW, true);
+	DrawAxes(RightHandTransformW, true);
+	//DrawDebugLine(GetWorld(), WorldTransform.GetLocation(), WorldTransform.GetLocation() + (WorldRot.GetUpVector() * 10.f), FColor::Blue);
+
+}
+
+void FAnimNode_UBIKSolver::DrawAxes(FTransform Transform, bool bDrawAxes)
+{
+	DrawDebugSphere(World, Transform.GetTranslation(), 3.0f, 20.f, FColor::Silver);
+
+	if (bDrawAxes)
+	{
+		FQuat WorldRot = Transform.GetRotation();
+		DrawDebugLine(World, Transform.GetLocation(), Transform.GetLocation() + (WorldRot.GetUpVector() * 10.f), FColor::Blue);
+		DrawDebugLine(World, Transform.GetLocation(), Transform.GetLocation() + (WorldRot.GetForwardVector() * 10.f), FColor::Red);
+		DrawDebugLine(World, Transform.GetLocation(), Transform.GetLocation() + (WorldRot.GetRightVector() * 10.f), FColor::Green);
+	}
+}
 

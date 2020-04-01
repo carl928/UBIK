@@ -1,4 +1,4 @@
-// 2020 Sticky Snout Studio (Jonas Mølgaard)
+// 2020 Sticky Snout Studio (Jonas Molgaard)
 
 #pragma once
 

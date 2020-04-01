@@ -1,4 +1,4 @@
-// 2020 Sticky Snout Studio (Jonas Mølgaard)
+// 2020 Sticky Snout Studio (Jonas Molgaard)
 
 #pragma once
 
@@ -6,6 +6,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "BoneControllers/AnimNode_SkeletalControlBase.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "DrawDebugHelpers.h"
 #include "UBIK.h"
 #include "AnimNode_UBIKSolver.generated.h"
 
@@ -113,6 +114,7 @@ private:
 
 	/** Must check if it's valid. Can be null. **/
 	USkeletalMeshComponent* MeshComponent;
+	UWorld* World;
 
 	FTransform HeadTransformC;
 	FTransform LeftHandTransformC;
@@ -121,6 +123,10 @@ private:
 	FTransform LeftClavicleC;	// TODO: May be able to turn into a FRotator instead
 	FTransform RightClavicleC;	// TODO: May be able to turn into a FRotator instead
 	FTransform BaseCharTransformC;
+	FTransform LeftUpperArmTransformC;
+	FTransform LeftLowerArmTransformC;
+	FTransform RightUpperArmTransformC;
+	FTransform RightLowerArmTransformC;
 
 	/** WorldSpace inverted **/
 	FTransform ShoulderTransform;
@@ -140,6 +146,22 @@ private:
 	float LeftElbowHandAngle;
 	float RightElbowHandAngle;
 
+private:
+	FRotator Head;
+	FRotator Spine03;
+	FRotator Spine02;
+	FRotator Spine01;
+	FTransform Pelvis;
+	FRotator Clavicle_l;
+	FRotator UpperArm_l;
+	FRotator LowerArm_l;
+	FRotator Hand_l;
+	FRotator Clavicle_r;
+	FRotator UpperArm_r;
+	FRotator LowerArm_r;
+	FRotator Hand_r;
+
+private:
 	void ConvertTransforms();
 	void SetShoulder();
 	FVector GetShoulderLocation();
@@ -159,5 +181,8 @@ private:
 	void RotateElbow(float Angle, FTransform UpperArm, FTransform LowerArm, FVector HandLoc, bool IsLeftArm, FTransform& NewUpperArm, FTransform& NewLowerArm);
 
 	FTransform GetBaseCharTransform();
+
+	void DrawDebug();
+	void DrawAxes(FTransform Transform, bool DrawAxis = true);
 };
 

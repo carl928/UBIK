@@ -1,4 +1,4 @@
-// 2020 Sticky Snout Studio (Jonas Mølgaard)
+// 2020 Sticky Snout Studio (Jonas Molgaard)
 
 #include "UBIK.h"
 
@@ -25,7 +25,7 @@ FUBIKSettings UUBIK::Initialize(FUBIKDefaults Defaults, FUBIKCalibrationData Cal
 	Settings.UpperArmsDistance = Calibration.UpperArmsDistance;
 	Settings.OkSpanAngle = Defaults.OkSpanAngle;
 	Settings.BaseCharOffset = Defaults.BaseCharOffset;
-
+	Settings.BodyInterSpeed = Defaults.BodyInterSpeed;
 	return Settings;
 }
 

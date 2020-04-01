@@ -1,4 +1,4 @@
-// 2020 Sticky Snout Studio (Jonas Mølgaard)
+// 2020 Sticky Snout Studio (Jonas Molgaard)
 
 #pragma once
 
@@ -61,7 +61,11 @@ public:
 
 	/** Offset from Shoulder to Pelvis **/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
-	FVector BaseCharOffset;
+	FVector BaseCharOffset = FVector::ZeroVector;
+
+	/** Interp speed between each bone from head to Pelvis-chain. Higher values give a more stiff upperbody that rotate more 1:1 with head. **/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
+	float BodyInterSpeed = 0.f;
 };
 
 USTRUCT(BlueprintType)
@@ -106,6 +110,10 @@ public:
 	/** Offset from Shoulder to Pelvis **/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 	FVector BaseCharOffset = FVector(0.f, 0.f, 55.25f);
+
+	/** Interp speed between each bone from head to Pelvis-chain. Higher values give a more stiff upperbody that rotate more 1:1 with head. **/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
+	float BodyInterSpeed = 10.f;
 };
 
 USTRUCT(BlueprintType)
