@@ -64,25 +64,25 @@ void FAnimNode_UBIKSolver::EvaluateSkeletalControl_AnyThread(FComponentSpacePose
 
 	const FBoneContainer& BoneContainer = Output.Pose.GetPose().GetBoneContainer();
 
-	GetBoneTransform(PelvisBoneToModify, Pelvis, Output, BoneContainer, true, true);
+	SetBoneTransform(PelvisBoneToModify, Pelvis, Output, BoneContainer, true, true);
 
-	GetBoneTransform(Spine01_BoneToModify, FTransform(UKismetMathLibrary::ComposeRotators(FRotator(83.f, 0.f, 90.f), Spine01)), Output, BoneContainer, true);
-	GetBoneTransform(Spine02_BoneToModify, FTransform(UKismetMathLibrary::ComposeRotators(FRotator(104.0f, 0.f, 90.f), Spine02)), Output, BoneContainer, true);
-	GetBoneTransform(Spine03_BoneToModify, FTransform(UKismetMathLibrary::ComposeRotators(FRotator(86.22f, 0.f, 90.f), Spine03)), Output, BoneContainer, true);
-	GetBoneTransform(HeadBoneToModify, FTransform(Head), Output, BoneContainer, true);
+	SetBoneTransform(Spine01_BoneToModify, FTransform(UKismetMathLibrary::ComposeRotators(FRotator(83.f, 0.f, 90.f), Spine01)), Output, BoneContainer, true);
+	SetBoneTransform(Spine02_BoneToModify, FTransform(UKismetMathLibrary::ComposeRotators(FRotator(104.0f, 0.f, 90.f), Spine02)), Output, BoneContainer, true);
+	SetBoneTransform(Spine03_BoneToModify, FTransform(UKismetMathLibrary::ComposeRotators(FRotator(86.22f, 0.f, 90.f), Spine03)), Output, BoneContainer, true);
+	SetBoneTransform(HeadBoneToModify, FTransform(Head), Output, BoneContainer, true);
 	
-	GetBoneTransform(LeftClavicleBoneToModify, FTransform(Clavicle_l), Output, BoneContainer, true);
-	GetBoneTransform(LeftUpperArmBoneToModify, FTransform(UpperArm_l), Output, BoneContainer, true);
-	GetBoneTransform(LeftLowerArmBoneToModify, FTransform(LowerArm_l), Output, BoneContainer, true);
-	GetBoneTransform(LeftHandBoneToModify, FTransform(Hand_l), Output, BoneContainer, true);
+	SetBoneTransform(LeftClavicleBoneToModify, FTransform(Clavicle_l), Output, BoneContainer, true);
+	SetBoneTransform(LeftUpperArmBoneToModify, FTransform(UpperArm_l), Output, BoneContainer, true);
+	SetBoneTransform(LeftLowerArmBoneToModify, FTransform(LowerArm_l), Output, BoneContainer, true);
+	SetBoneTransform(LeftHandBoneToModify, FTransform(Hand_l), Output, BoneContainer, true);
 
-	GetBoneTransform(RightClavicleBoneToModify, FTransform(Clavicle_r), Output, BoneContainer, true);
-	GetBoneTransform(RightUpperArmBoneToModify, FTransform(UpperArm_r), Output, BoneContainer, true);
-	GetBoneTransform(RightLowerArmBoneToModify, FTransform(LowerArm_r), Output, BoneContainer, true);
-	GetBoneTransform(RightHandBoneToModify, FTransform(Hand_r), Output, BoneContainer, true);
+	SetBoneTransform(RightClavicleBoneToModify, FTransform(Clavicle_r), Output, BoneContainer, true);
+	SetBoneTransform(RightUpperArmBoneToModify, FTransform(UpperArm_r), Output, BoneContainer, true);
+	SetBoneTransform(RightLowerArmBoneToModify, FTransform(LowerArm_r), Output, BoneContainer, true);
+	SetBoneTransform(RightHandBoneToModify, FTransform(Hand_r), Output, BoneContainer, true);
 }
 
-FBoneTransform FAnimNode_UBIKSolver::GetBoneTransform(const FBoneReference& BoneToModify, FTransform Transform, FComponentSpacePoseContext& Output, const FBoneContainer& BoneContainer, bool bApplyRotation, bool bApplyTranslation)
+FBoneTransform FAnimNode_UBIKSolver::SetBoneTransform(const FBoneReference& BoneToModify, FTransform Transform, FComponentSpacePoseContext& Output, const FBoneContainer& BoneContainer, bool bApplyRotation, bool bApplyTranslation)
 {
 	TArray<FBoneTransform> TempTransform;
 
@@ -212,7 +212,6 @@ FRotator FAnimNode_UBIKSolver::GetShoulderRotationFromHands()
 	FVector Offset = FVector(0.f, 0.f, 15.f);
 	FVector TopHeadTranslation = HeadTransformW.GetTranslation() + HeadTransformW.Rotator().RotateVector(Offset);
 
-	// TODO: Repurposing the variables below. Refactor this later
 	FVector Hand = (LeftHandTransformW * HeadTransformW.Inverse()).GetTranslation();
 	FVector HandHeadDelta = LeftHandTransformW.GetTranslation() - TopHeadTranslation;
 	//UE_LOG(LogUBIKRuntime, Display, TEXT("LEFTHAND: LeftTransformW: %s LastAngle: %f Hand: %s HandHeadDelta: %s"), *LeftHandTransformW.ToString(), LeftHeadHandAngle, *Hand.ToString(), *HandHeadDelta.ToString());
@@ -248,12 +247,12 @@ float FAnimNode_UBIKSolver::GetHeadHandAngle(float LastAngle, FVector Hand, FVec
 	//UE_LOG(LogUBIKRuntime, Display, TEXT("Angle: %f"), Angle);
 
 	bool Selector1 = FVector::DotProduct(Hand2DNormalized, FVector::ForwardVector) > Settings.HeadHandAngleLimitDot;
-	bool Selector2 = ( FMath::Sign(LastAngle) == FMath::Sign(Angle) ) || 
-		( Angle < Settings.OkSpanAngle && Angle > -1.0f * Settings.OkSpanAngle );
+	bool Selector2 = (FMath::Sign(LastAngle) == FMath::Sign(Angle)) || 
+		(Angle < Settings.OkSpanAngle && Angle > -1.0f * Settings.OkSpanAngle);
 	bool Selector = Selector1 && Selector2;
 
 	float SelectedFloat = (Selector) ? (Angle) : (Settings.HeadHandAngleLimit * FMath::Sign(LastAngle));
-	UE_LOG(LogUBIKRuntime, Display, TEXT("SelectedFloat: %f"), SelectedFloat);
+	//UE_LOG(LogUBIKRuntime, Display, TEXT("SelectedFloat: %f"), SelectedFloat);
 
 	return FMath::Lerp(0.f, SelectedFloat, HeadHandAlpha);
 }
@@ -321,12 +320,12 @@ void FAnimNode_UBIKSolver::ResetUpperArmsLocation()
 {
 	if (MeshComponent && MeshComponent->SkeletalMesh)
 	{
-		FTransform LeftUpperArm = MeshComponent->GetSocketTransform(LeftUpperArmBoneToModify.BoneName, RTS_World);
-		LeftUpperArmTransformS = LeftUpperArm * ShoulderTransform;
+		FVector LeftUpperArm = MeshComponent->GetSocketTransform(LeftUpperArmBoneToModify.BoneName, RTS_World).GetTranslation();
+		LeftUpperArmTransformS = FTransform(UKismetMathLibrary::InverseTransformLocation(ShoulderTransformW, LeftUpperArm));
 		//UE_LOG(LogUBIKRuntime, Display, TEXT("LeftUpperArm %s"), *LeftUpperArm.ToString());
 
-		FTransform RightUpperArm = MeshComponent->GetSocketTransform(RightUpperArmBoneToModify.BoneName, RTS_World);
-		RightUpperArmTransformS = RightUpperArm * ShoulderTransform;
+		FVector RightUpperArm = MeshComponent->GetSocketTransform(RightUpperArmBoneToModify.BoneName, RTS_World).GetTranslation();
+		RightUpperArmTransformS = FTransform(UKismetMathLibrary::InverseTransformLocation(ShoulderTransformW, RightUpperArm));
 	}
 }
 
@@ -342,13 +341,15 @@ void FAnimNode_UBIKSolver::SolveArms()
 	FTransform UpperArm = FTransform::Identity;
 	FTransform LowerArm = FTransform::Identity;
 
+	//UE_LOG(LogUBIKRuntime, Display, TEXT("UA: %s H: %s"), *UpperArmLoc.ToString(), *HandLoc.ToString()); 
 	SetElbowBasePosition(UpperArmLoc, HandLoc, true, UpperArmBase, LowerArmBase);
+	//UE_LOG(LogUBIKRuntime, Display, TEXT("LowerArmBase: %s"), *LowerArmBase.ToString());
 
 	float BaseAngle = RotateElbowByHandPosition(HandLoc, true);
 	//UE_LOG(LogUBIKRuntime, Display, TEXT("BaseAngle: %f"), BaseAngle);
 
 	RotateElbow(BaseAngle, UpperArmBase, LowerArmBase, HandLoc, true, UpperArm, LowerArm);
-	//UE_LOG(LogUBIKRuntime, Display, TEXT("LowerArm: %s"), *LowerArm.ToString());
+	UE_LOG(LogUBIKRuntime, Display, TEXT("LowerArm: %s"), *LowerArm.ToString());
 
 	float Angle = RotateElbowByHandRotation(LowerArm, HandRot);
 	//UE_LOG(LogUBIKRuntime, Display, TEXT("Angle: %f"), Angle);
@@ -359,6 +360,9 @@ void FAnimNode_UBIKSolver::SolveArms()
 	//UE_LOG(LogUBIKRuntime, Display, TEXT("LeftElbowHandAngle: %f"), LeftElbowHandAngle);
 
 	RotateElbow(LeftElbowHandAngle + BaseAngle, UpperArmBase, LowerArmBase, HandLoc, true, LeftUpperArmTransformS, LeftLowerArmTransformS);
+	//UE_LOG(LogUBIKRuntime, Display, TEXT("LeftElbowHandAngle + BaseAngle: %f"), LeftElbowHandAngle + BaseAngle);
+	//UE_LOG(LogUBIKRuntime, Display, TEXT("LUAS: %s LLAS: %s"), *LeftUpperArmTransformS.ToString(), *LeftLowerArmTransformS.ToString());
+
 	LeftUpperArmTransformW = LeftUpperArmTransformS * ShoulderTransformW;
 	LeftLowerArmTransformW = LeftLowerArmTransformS * ShoulderTransformW;
 
@@ -411,10 +415,12 @@ void FAnimNode_UBIKSolver::SetElbowBasePosition(FVector UpperArm, FVector Hand, 
 	Omega = (IsLeftArm) ? (180.f - Omega) : (180.f + Omega);
 	//UE_LOG(LogUBIKRuntime, Display, TEXT("Omega: %f"), Omega);
 
-	FQuat A = FQuat::FindBetweenNormals(FVector::ForwardVector, (Hand - UpperArm).GetSafeNormal());
-	FQuat B = FQuat(FVector::UpVector, FMath::DegreesToRadians(Beta));
+	FRotator A = FQuat::FindBetweenNormals(FVector::ForwardVector, (Hand - UpperArm).GetSafeNormal()).Rotator();
+	//UE_LOG(LogUBIKRuntime, Display, TEXT("FindBetweenNormals: %s"), *A.ToString());
+	FRotator B = FQuat(UKismetMathLibrary::GetUpVector(A), FMath::DegreesToRadians(Beta)).Rotator();
+	//UE_LOG(LogUBIKRuntime, Display, TEXT("AxisAngleRot: %s"), *B.ToString());
 
-	UpperArmTransform = FTransform((A * B), UpperArm, FVector::OneVector);
+	UpperArmTransform = FTransform((UKismetMathLibrary::ComposeRotators(A, B)), UpperArm, FVector::OneVector);
 	//UE_LOG(LogUBIKRuntime, Display, TEXT("UpperArmTransform: %s"), *UpperArmTransform.ToString());
 
 	FTransform TempLowerArm = FTransform(FRotator(0.f, Omega, 0.f), FVector::ForwardVector * Settings.UpperArmLength, FVector::OneVector);
@@ -461,7 +467,7 @@ void FAnimNode_UBIKSolver::RotateElbow(float Angle, FTransform UpperArm, FTransf
 {
 	FVector PivotLoc =
 		UpperArm.GetTranslation() +
-		UKismetMathLibrary::ProjectVectorOnToVector(UpperArm.GetTranslation() - LowerArm.GetTranslation(), UpperArm.GetTranslation() - HandLoc);
+		UKismetMathLibrary::ProjectVectorOnToVector(LowerArm.GetTranslation() - UpperArm.GetTranslation(), UpperArm.GetTranslation() - HandLoc);
 
 	FVector Forward = UpperArm.GetTranslation() - HandLoc;
 	FVector Right = FVector::CrossProduct(UKismetMathLibrary::GetUpVector(UpperArm.Rotator()), Forward);

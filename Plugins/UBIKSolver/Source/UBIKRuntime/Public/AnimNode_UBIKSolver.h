@@ -188,6 +188,6 @@ private:
 	void DrawAxes(FTransform Transform, bool DrawAxis = true);
 
 	/** Will output a bone (FBoneTransform) in ComponentSpace. The given Transform will only apply Translation if explicitly defined. **/
-	FBoneTransform GetBoneTransform(const FBoneReference& BoneToModify, FTransform Transform, FComponentSpacePoseContext& Output, const FBoneContainer& BoneContainer, bool bApplyRotation, bool bApplyTranslation = false);
+	FBoneTransform SetBoneTransform(const FBoneReference& BoneToModify, FTransform Transform, FComponentSpacePoseContext& Output, const FBoneContainer& BoneContainer, bool bApplyRotation, bool bApplyTranslation = false);
 };
 
