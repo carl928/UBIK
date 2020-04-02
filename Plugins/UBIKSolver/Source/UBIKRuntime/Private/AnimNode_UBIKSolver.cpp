@@ -39,21 +39,21 @@ void FAnimNode_UBIKSolver::EvaluateSkeletalControl_AnyThread(FComponentSpacePose
 	
 	// Stuff from the AnimBP
 	Head = HeadTransformC.Rotator();
-	Spine03 = UKismetMathLibrary::RInterpTo(Spine03, BaseCharTransformC.Rotator(), DeltaTime, Settings.BodyInterSpeed);
-	Spine02 = UKismetMathLibrary::RInterpTo(Spine02, Spine03, DeltaTime, Settings.BodyInterSpeed);
-	Spine01 = UKismetMathLibrary::RInterpTo(Spine01, Spine02, DeltaTime, Settings.BodyInterSpeed);
+	Spine03 = FMath::RInterpTo(Spine03, BaseCharTransformC.Rotator(), DeltaTime, Settings.BodyInterSpeed);
+	Spine02 = FMath::RInterpTo(Spine02, Spine03, DeltaTime, Settings.BodyInterSpeed);
+	Spine01 = FMath::RInterpTo(Spine01, Spine02, DeltaTime, Settings.BodyInterSpeed);
 	Pelvis = FTransform(Spine01, BaseCharTransformC.GetTranslation(), FVector::OneVector);
 
 	Clavicle_l = LeftClavicleC.Rotator();
 	UpperArm_l = LeftUpperArmTransformC.Rotator();
 	LowerArm_l = LeftLowerArmTransformC.Rotator();
-	Hand_l = UKismetMathLibrary::ComposeRotators(FRotator(0.f, -25.f, 180.f), LeftHandTransformC.Rotator());
+	Hand_l = FRotator(LeftHandTransformC.Rotator().Quaternion() * FRotator(0.f, -25.f, 180.f).Quaternion());
 
-	Clavicle_r = UKismetMathLibrary::ComposeRotators(FRotator(180.f, 0.f, 0.f), RightClavicleC.Rotator());
-	UpperArm_r = UKismetMathLibrary::ComposeRotators(FRotator(0.f, 180.f, 180.f), RightUpperArmTransformC.Rotator());
+	Clavicle_r = FRotator(RightClavicleC.Rotator().Quaternion() * FRotator(180.f, 0.f, 0.f).Quaternion());
+	UpperArm_r = FRotator(RightUpperArmTransformC.Rotator().Quaternion() * FRotator(0.f, 180.f, 180.f).Quaternion());
 	//UE_LOG(LogUBIKRuntime, Display, TEXT("UpperArm_r: %s"), *UpperArm_r.ToString());
-	LowerArm_r = UKismetMathLibrary::ComposeRotators(FRotator(0.f, 180.f, 180.f), RightLowerArmTransformC.Rotator());
-	Hand_r = UKismetMathLibrary::ComposeRotators(FRotator(180.f, 25.f, 180.f), LeftHandTransformC.Rotator());
+	LowerArm_r = FRotator(RightLowerArmTransformC.Rotator().Quaternion() * FRotator(0.f, 180.f, 180.f).Quaternion());
+	Hand_r = FRotator(LeftHandTransformC.Rotator().Quaternion() * FRotator(180.f, 25.f, 180.f).Quaternion());
 	//UE_LOG(LogUBIKRuntime, Display, TEXT("Clavicle_r: %s"), *Clavicle_r.ToString());
 
 	/*
