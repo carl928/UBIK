@@ -56,11 +56,45 @@ void FAnimNode_UBIKSolver::EvaluateSkeletalControl_AnyThread(FComponentSpacePose
 	Hand_r = FRotator(LeftHandTransformC.Rotator().Quaternion() * FRotator(180.f, 25.f, 180.f).Quaternion());
 	//UE_LOG(LogUBIKRuntime, Display, TEXT("Clavicle_r: %s"), *Clavicle_r.ToString());
 
-	/*
+	//FCompactPoseBoneIndex CompactPoseBoneToModify = BoneToModify.GetCompactPoseIndex(BoneContainer);
+	//FTransform NewBoneTM = Output.Pose.GetComponentSpaceTransform(CompactPoseBoneToModify);
+	//FTransform ComponentTransform = Output.AnimInstanceProxy->GetComponentTransform();
+
 	const FBoneContainer& BoneContainer = Output.Pose.GetPose().GetBoneContainer();
 	// UE_LOG(LogUBIKRuntime, Display, TEXT("BoneContainer.GetNumBones : %i"), BoneContainer.GetNumBones()); // Returns 68
-	FCompactPoseBoneIndex CompactPoseBoneToModify = HeadBoneToModify.GetCompactPoseIndex(BoneContainer);
+
+	/// HEAD BONE
+
+	FBoneReference BoneToModify = HeadBoneToModify;
+
+	// THE FOLLWOING CODE CAN BE EXTRACTED TO AN OWN FUNCTION ModifyBoneAndAddToOutput
+
+	FCompactPoseBoneIndex CompactPoseBoneToModify = BoneToModify.GetCompactPoseIndex(BoneContainer);
+	//UE_LOG(LogUBIKRuntime, Display, TEXT("CompactPoseBoneToModify : %i"), CompactPoseBoneToModify.GetInt()); // Returns 48
+
+	FTransform NewBoneTM = Output.Pose.GetComponentSpaceTransform(CompactPoseBoneToModify);
+	FTransform ComponentTransform = Output.AnimInstanceProxy->GetComponentTransform();
+
+	// Convert to Bone Space.
+	FAnimationRuntime::ConvertCSTransformToBoneSpace(ComponentTransform, Output.Pose, NewBoneTM, CompactPoseBoneToModify, BCS_ComponentSpace);
+
+	// Transform the head by applying the rotation - we are completely replacing the existing one
+	NewBoneTM.SetRotation(Head.Quaternion());
 	
+	// Transform the head by applying the translation (if any) - we are completely replacing the existing one 
+	//NewBoneTM.SetTranslation(...)
+	
+	// Convert back to Component Space.
+	FAnimationRuntime::ConvertBoneSpaceTransformToCS(ComponentTransform, Output.Pose, NewBoneTM, CompactPoseBoneToModify, BCS_ComponentSpace);
+
+	// Add transform to the output
+	OutBoneTransforms.Add(FBoneTransform(BoneToModify.GetCompactPoseIndex(BoneContainer), NewBoneTM));
+
+
+	/// GO ON WITH THE REST OF THE TRANSFORMS - IS THE SAMNE
+
+
+	/*
 	int32 HeadBoneIndex = BoneContainer.GetPoseBoneIndexForBoneName(HeadBoneToModify.BoneName);
 
 	if (HeadBoneIndex != INDEX_NONE)
@@ -82,6 +116,23 @@ void FAnimNode_UBIKSolver::UpdateInternal(const FAnimationUpdateContext& Context
 	FAnimNode_SkeletalControlBase::UpdateInternal(Context);
 
 	DeltaTime = Context.GetDeltaTime();
+}
+
+void FAnimNode_UBIKSolver::InitializeBoneReferences(const FBoneContainer& RequiredBones)
+{
+	HeadBoneToModify.Initialize(RequiredBones);
+	LeftClavicleBoneToModify.Initialize(RequiredBones);
+	RightClavicleBoneToModify.Initialize(RequiredBones);
+	LeftUpperArmBoneToModify.Initialize(RequiredBones);
+	RightUpperArmBoneToModify.Initialize(RequiredBones);
+	LeftLowerArmBoneToModify.Initialize(RequiredBones);
+	RightLowerArmBoneToModify.Initialize(RequiredBones);
+	LeftHandBoneToModify.Initialize(RequiredBones);
+	RightHandBoneToModify.Initialize(RequiredBones);
+	Spine01_BoneToModify.Initialize(RequiredBones);
+	Spine02_BoneToModify.Initialize(RequiredBones);
+	Spine03_BoneToModify.Initialize(RequiredBones);
+	PelvisBoneToModify.Initialize(RequiredBones);
 }
 
 /** SideEffects: Updates the following MemberVariables:
