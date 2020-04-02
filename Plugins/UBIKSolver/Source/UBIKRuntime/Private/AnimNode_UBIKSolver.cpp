@@ -54,7 +54,7 @@ void FAnimNode_UBIKSolver::EvaluateSkeletalControl_AnyThread(FComponentSpacePose
 	UpperArm_r = FRotator(RightUpperArmTransformC.Rotator().Quaternion() * FRotator(0.f, 180.f, 180.f).Quaternion());
 	//UE_LOG(LogUBIKRuntime, Display, TEXT("UpperArm_r: %s"), *UpperArm_r.ToString());
 	LowerArm_r = FRotator(RightLowerArmTransformC.Rotator().Quaternion() * FRotator(0.f, 180.f, 180.f).Quaternion());
-	Hand_r = FRotator(LeftHandTransformC.Rotator().Quaternion() * FRotator(180.f, 25.f, 180.f).Quaternion());
+	Hand_r = FRotator(RightHandTransformC.Rotator().Quaternion() * FRotator(180.f, 25.f, 180.f).Quaternion());
 	//UE_LOG(LogUBIKRuntime, Display, TEXT("Clavicle_r: %s"), *Clavicle_r.ToString());
 
 	const FBoneContainer& BoneContainer = Output.Pose.GetPose().GetBoneContainer();
