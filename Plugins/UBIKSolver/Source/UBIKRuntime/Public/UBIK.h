@@ -109,7 +109,7 @@ public:
 
 	/** Offset from Shoulder to Pelvis **/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
-	FVector BaseCharOffset = FVector(0.f, 0.f, 55.25f);
+	FVector BaseCharOffset = FVector(0.f, 0.f, -55.25f);
 
 	/** Interp speed between each bone from head to Pelvis-chain. Higher values give a more stiff upperbody that rotate more 1:1 with head. **/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)

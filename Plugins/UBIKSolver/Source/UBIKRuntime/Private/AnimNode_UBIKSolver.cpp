@@ -14,7 +14,7 @@ void FAnimNode_UBIKSolver::EvaluateSkeletalControl_AnyThread(FComponentSpacePose
 {
 	check(OutBoneTransforms.Num() == 0);
 
-	//UE_LOG(UBIKRuntimeLog, Display, TEXT("DeltaTime: %f"), DeltaTime);
+	//UE_LOG(LogUBIKRuntime, Display, TEXT("DeltaTime: %f"), DeltaTime);
 	ComponentSpaceW = Output.AnimInstanceProxy->GetComponentTransform();
 	ComponentSpace = ComponentSpaceW.Inverse();
 
@@ -31,6 +31,7 @@ void FAnimNode_UBIKSolver::EvaluateSkeletalControl_AnyThread(FComponentSpacePose
 	SolveArms();
 	
 	BaseCharTransformC = GetBaseCharTransform();
+	//UE_LOG(LogUBIKRuntime, Display, TEXT("BaseCharTransformC loc: %s"), *BaseCharTransformC.GetTranslation().ToString());
 
 	if (bDrawDebug)
 	{
@@ -58,14 +59,19 @@ void FAnimNode_UBIKSolver::EvaluateSkeletalControl_AnyThread(FComponentSpacePose
 
 	const FBoneContainer& BoneContainer = Output.Pose.GetPose().GetBoneContainer();
 
-	OutBoneTransforms.Add(GetBoneTransform(HeadBoneToModify, FTransform(Head), Output, BoneContainer, true));
-	OutBoneTransforms.Add(GetBoneTransform(PelvisBoneToModify, Pelvis, Output, BoneContainer, true, true));
+	GetBoneTransform(PelvisBoneToModify, Pelvis, Output, BoneContainer, true, true);
+	GetBoneTransform(HeadBoneToModify, FTransform(Head), Output, BoneContainer, true);
+
 }
 
 FBoneTransform FAnimNode_UBIKSolver::GetBoneTransform(const FBoneReference& BoneToModify, FTransform Transform, FComponentSpacePoseContext& Output, const FBoneContainer& BoneContainer, bool bApplyRotation, bool bApplyTranslation)
 {
+	TArray<FBoneTransform> TempTransform;
+
 	FCompactPoseBoneIndex CompactBoneIndex = BoneToModify.GetCompactPoseIndex(BoneContainer);
 	FTransform NewTransform = Output.Pose.GetComponentSpaceTransform(CompactBoneIndex);
+	UE_LOG(LogUBIKRuntime, Display, TEXT("GetBoneTransform, Index: %i Name: %s"), CompactBoneIndex.GetInt(), *BoneToModify.BoneName.ToString());
+
 	if (CompactBoneIndex != INDEX_NONE)
 	{
 		if (bApplyRotation)
@@ -77,6 +83,8 @@ FBoneTransform FAnimNode_UBIKSolver::GetBoneTransform(const FBoneReference& Bone
 		{
 			NewTransform.SetTranslation(Transform.GetTranslation());
 		}
+		TempTransform.Add(FBoneTransform(CompactBoneIndex, NewTransform));
+		Output.Pose.LocalBlendCSBoneTransforms(TempTransform, 1.f);
 
 		return FBoneTransform(CompactBoneIndex, NewTransform);
 	}
@@ -448,7 +456,8 @@ void FAnimNode_UBIKSolver::RotateElbow(float Angle, FTransform UpperArm, FTransf
 
 FTransform FAnimNode_UBIKSolver::GetBaseCharTransform()
 {
-	return FTransform(ShoulderTransformC.GetRotation(), ShoulderTransformC.GetTranslation() + Settings.BaseCharOffset, FVector::OneVector);
+	// TODO: Figure out why i have to zero out Roll and Pitch, thought it was already done?
+	return FTransform(FRotator(0.f, ShoulderTransformC.Rotator().Yaw, 0.f), ShoulderTransformC.GetTranslation() + Settings.BaseCharOffset, FVector::OneVector);
 }
 
 void FAnimNode_UBIKSolver::DrawDebug()
