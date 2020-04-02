@@ -60,8 +60,21 @@ void FAnimNode_UBIKSolver::EvaluateSkeletalControl_AnyThread(FComponentSpacePose
 	const FBoneContainer& BoneContainer = Output.Pose.GetPose().GetBoneContainer();
 
 	GetBoneTransform(PelvisBoneToModify, Pelvis, Output, BoneContainer, true, true);
-	GetBoneTransform(HeadBoneToModify, FTransform(Head), Output, BoneContainer, true);
 
+	GetBoneTransform(Spine01_BoneToModify, FTransform(UKismetMathLibrary::ComposeRotators(FRotator(83.f, 0.f, 90.f), Spine01)), Output, BoneContainer, true);
+	GetBoneTransform(Spine02_BoneToModify, FTransform(UKismetMathLibrary::ComposeRotators(FRotator(104.0f, 0.f, 90.f), Spine02)), Output, BoneContainer, true);
+	GetBoneTransform(Spine03_BoneToModify, FTransform(UKismetMathLibrary::ComposeRotators(FRotator(86.22f, 0.f, 90.f), Spine03)), Output, BoneContainer, true);
+	GetBoneTransform(HeadBoneToModify, FTransform(Head), Output, BoneContainer, true);
+	
+	GetBoneTransform(LeftClavicleBoneToModify, FTransform(Clavicle_l), Output, BoneContainer, true);
+	GetBoneTransform(LeftUpperArmBoneToModify, FTransform(UpperArm_l), Output, BoneContainer, true);
+	GetBoneTransform(LeftLowerArmBoneToModify, FTransform(LowerArm_l), Output, BoneContainer, true);
+	GetBoneTransform(LeftHandBoneToModify, FTransform(Hand_l), Output, BoneContainer, true);
+
+	GetBoneTransform(RightClavicleBoneToModify, FTransform(Clavicle_r), Output, BoneContainer, true);
+	GetBoneTransform(RightUpperArmBoneToModify, FTransform(UpperArm_r), Output, BoneContainer, true);
+	GetBoneTransform(RightLowerArmBoneToModify, FTransform(LowerArm_r), Output, BoneContainer, true);
+	GetBoneTransform(RightHandBoneToModify, FTransform(Hand_r), Output, BoneContainer, true);
 }
 
 FBoneTransform FAnimNode_UBIKSolver::GetBoneTransform(const FBoneReference& BoneToModify, FTransform Transform, FComponentSpacePoseContext& Output, const FBoneContainer& BoneContainer, bool bApplyRotation, bool bApplyTranslation)
@@ -70,7 +83,7 @@ FBoneTransform FAnimNode_UBIKSolver::GetBoneTransform(const FBoneReference& Bone
 
 	FCompactPoseBoneIndex CompactBoneIndex = BoneToModify.GetCompactPoseIndex(BoneContainer);
 	FTransform NewTransform = Output.Pose.GetComponentSpaceTransform(CompactBoneIndex);
-	UE_LOG(LogUBIKRuntime, Display, TEXT("GetBoneTransform, Index: %i Name: %s"), CompactBoneIndex.GetInt(), *BoneToModify.BoneName.ToString());
+	//UE_LOG(LogUBIKRuntime, Display, TEXT("GetBoneTransform, Index: %i Name: %s"), CompactBoneIndex.GetInt(), *BoneToModify.BoneName.ToString());
 
 	if (CompactBoneIndex != INDEX_NONE)
 	{
