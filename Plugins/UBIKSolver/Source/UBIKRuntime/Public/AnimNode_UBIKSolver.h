@@ -96,6 +96,7 @@ public:
 	// End of FAnimNode_Base interface
 
 	// FAnimNode_SkeletalControlBase interface
+	virtual void Initialize_AnyThread(const FAnimationInitializeContext& Context) override;
 	virtual void EvaluateSkeletalControl_AnyThread(FComponentSpacePoseContext& Output, TArray<FBoneTransform>& OutBoneTransforms) override;
 	virtual bool IsValidToEvaluate(const USkeleton* Skeleton, const FBoneContainer& RequiredBones) override;
 	virtual void UpdateInternal(const FAnimationUpdateContext& Context) override;
