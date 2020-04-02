@@ -12,7 +12,7 @@ FUBIKSettings UUBIK::Initialize(FUBIKDefaults Defaults, FUBIKCalibrationData Cal
 	Settings.LowerArmLength = Settings.ArmLength * LowerArmRatio;
 	Settings.UpperArmLength = Settings.ArmLength * (1 - LowerArmRatio);
 	Settings.HeadHandAngleLimit = Defaults.HeadHandAngleLimit;
-	Settings.HeadHandAngleLimitDot = FMath::Acos(Defaults.HeadHandAngleLimit);
+	Settings.HeadHandAngleLimitDot = FMath::Cos(FMath::DegreesToRadians(Settings.HeadHandAngleLimit));
 
 	Settings.ClavicleOffset = Defaults.ClavicleOffset;
 	Settings.DistinctShoulderRotationLimit = Defaults.DistinctShoulderRotationLimit;

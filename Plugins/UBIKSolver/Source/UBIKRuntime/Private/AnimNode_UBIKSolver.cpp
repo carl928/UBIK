@@ -248,8 +248,8 @@ float FAnimNode_UBIKSolver::GetHeadHandAngle(float LastAngle, FVector Hand, FVec
 	//UE_LOG(LogUBIKRuntime, Display, TEXT("Angle: %f"), Angle);
 
 	bool Selector1 = FVector::DotProduct(Hand2DNormalized, FVector::ForwardVector) > Settings.HeadHandAngleLimitDot;
-	bool Selector2 = FMath::Sign(LastAngle) == FMath::Sign(Angle) || 
-		Angle < Settings.OkSpanAngle && Angle > -Settings.OkSpanAngle;
+	bool Selector2 = ( FMath::Sign(LastAngle) == FMath::Sign(Angle) ) || 
+		( Angle < Settings.OkSpanAngle && Angle > -1.0f * Settings.OkSpanAngle );
 	bool Selector = Selector1 && Selector2;
 
 	float SelectedFloat = (Selector) ? (Angle) : (Settings.HeadHandAngleLimit * FMath::Sign(LastAngle));
