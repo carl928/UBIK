@@ -349,7 +349,7 @@ void FAnimNode_UBIKSolver::SolveArms()
 	//UE_LOG(LogUBIKRuntime, Display, TEXT("BaseAngle: %f"), BaseAngle);
 
 	RotateElbow(BaseAngle, UpperArmBase, LowerArmBase, HandLoc, true, UpperArm, LowerArm);
-	UE_LOG(LogUBIKRuntime, Display, TEXT("LowerArm: %s"), *LowerArm.ToString());
+	//UE_LOG(LogUBIKRuntime, Display, TEXT("LowerArm: %s"), *LowerArm.ToString());
 
 	float Angle = RotateElbowByHandRotation(LowerArm, HandRot);
 	//UE_LOG(LogUBIKRuntime, Display, TEXT("Angle: %f"), Angle);
@@ -368,7 +368,8 @@ void FAnimNode_UBIKSolver::SolveArms()
 
 	float Roll = FMath::Max((LeftHandTransformW.GetTranslation() - LeftUpperArmTransformW.GetTranslation()).Z, 0.f);
 	FTransform UpperArmS = LeftUpperArmTransformW * ComponentSpace;
-	LeftUpperArmTransformC = FTransform(UKismetMathLibrary::ComposeRotators(FRotator(0.f, 0.f, Roll), UpperArmS.Rotator()));
+	// *** [MG] Translation was forgotten from the transform
+	LeftUpperArmTransformC = FTransform(UKismetMathLibrary::ComposeRotators(FRotator(0.f, 0.f, Roll), UpperArmS.Rotator()),UpperArmS.GetTranslation());
 	LeftLowerArmTransformC = LeftLowerArmTransformW * ComponentSpace;
 
 	/** RIGHT ARM **/
@@ -398,7 +399,8 @@ void FAnimNode_UBIKSolver::SolveArms()
 
 	Roll = FMath::Max((RightHandTransformW.GetTranslation() - RightUpperArmTransformW.GetTranslation()).Z, 0.f);
 	UpperArmS = RightUpperArmTransformW * ComponentSpace;
-	RightUpperArmTransformC = FTransform(UKismetMathLibrary::ComposeRotators(FRotator(0.f, 0.f, Roll), UpperArmS.Rotator()));
+	// *** [MG] Translation was forgotten from the transform
+	RightUpperArmTransformC = FTransform(UKismetMathLibrary::ComposeRotators(FRotator(0.f, 0.f, Roll), UpperArmS.Rotator()),UpperArmS.GetTranslation());
 	RightLowerArmTransformC = RightLowerArmTransformW * ComponentSpace;
 }
 
@@ -434,8 +436,9 @@ float FAnimNode_UBIKSolver::RotateElbowByHandPosition(FVector Hand, bool IsLeftA
 
 	float Sign = (IsLeftArm) ? (1.f) : (-1.f);
 
+	// *** [MG] fixed sign discrepancy with the BP, there was a * instead of +
 	float Angle = Settings.ElbowBaseOffsetAngle +
-		(Settings.ElbowYWeight * FMath::Max(0.f, TempHand.Y * Sign * Settings.ElbowYDistanceStart));
+		(Settings.ElbowYWeight * FMath::Max(0.f, TempHand.Y * Sign + Settings.ElbowYDistanceStart));
 
 	return Angle;
 }
@@ -477,11 +480,15 @@ void FAnimNode_UBIKSolver::RotateElbow(float Angle, FTransform UpperArm, FTransf
 
 	float Roll = (IsLeftArm) ? (180.f - Angle) : (180.f + Angle);
 	FRotator Delta = FRotator(0.f, 0.f, Roll);
+	// UE_LOG(LogUBIKRuntime, Display, TEXT("!!! Delta: %s"), *Delta.ToString());
 
 	FTransform Pivot = FTransform(PivotRot, PivotLoc, FVector::OneVector);
+	// UE_LOG(LogUBIKRuntime, Display, TEXT("!!! Pivot: %s"), *Pivot.ToString()); --> Pivot is correct!
 
 	NewUpperArm = UUBIK::RotatePointAroundPivot(UpperArm, Pivot, Delta);
 	NewLowerArm = UUBIK::RotatePointAroundPivot(LowerArm, Pivot, Delta);
+	// UE_LOG(LogUBIKRuntime, Display, TEXT("!!! NewUpperArm: %s - NewLowerArm: %s"), *NewUpperArm.ToString(), *NewLowerArm.ToString());
+
 }
 
 FTransform FAnimNode_UBIKSolver::GetBaseCharTransform()
