@@ -5,6 +5,8 @@
 DEFINE_LOG_CATEGORY(LogUBIKRuntime);
 
 #define LOCTEXT_NAMESPACE "UBIKRuntime"
+DECLARE_STATS_GROUP(TEXT("UBIK"), STATGROUP_UBIK, STATCAT_Advanced);
+// DisplayName, GroupName (ends up as: "LODZERO"), Third param is always Advanced.
 
 void FUBIKRuntime::StartupModule()
 {

@@ -122,7 +122,7 @@ struct UBIKRUNTIME_API FUBIKCalibrationData
 	GENERATED_USTRUCT_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ToolTip = "Actual Player height in cm."))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (ToolTip = "Actual Player height in cm."))
 	float Height = 184.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault, ToolTip = ""))

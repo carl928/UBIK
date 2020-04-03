@@ -5,6 +5,9 @@
 #include "AnimationRuntime.h"
 #include "Animation/AnimInstanceProxy.h"
 
+/** STATS FOR USE WITH PROFILER **/
+DECLARE_CYCLE_STAT(TEXT("UBIK_EvaluateThread"), STAT_UBIK_EvaluateThread, STATGROUP_Character);
+
 void FAnimNode_UBIKSolver::GatherDebugData(FNodeDebugData& DebugData)
 {
 }
@@ -17,6 +20,8 @@ void FAnimNode_UBIKSolver::Initialize_AnyThread(const FAnimationInitializeContex
 /* Only valid if i base this off FAnimNode_SkeletalControlBase */
 void FAnimNode_UBIKSolver::EvaluateSkeletalControl_AnyThread(FComponentSpacePoseContext& Output, TArray<FBoneTransform>& OutBoneTransforms)
 {
+	SCOPE_CYCLE_COUNTER(STAT_UBIK_EvaluateThread);
+
 	check(OutBoneTransforms.Num() == 0);
 
 	//UE_LOG(LogUBIKRuntime, Display, TEXT("DeltaTime: %f"), DeltaTime);
@@ -24,7 +29,6 @@ void FAnimNode_UBIKSolver::EvaluateSkeletalControl_AnyThread(FComponentSpacePose
 	ComponentSpace = ComponentSpaceW.Inverse();
 
 	MeshComponent = Output.AnimInstanceProxy->GetSkelMeshComponent();
-	World = MeshComponent->GetWorld();
 
 	ConvertTransforms();
 	
@@ -40,7 +44,7 @@ void FAnimNode_UBIKSolver::EvaluateSkeletalControl_AnyThread(FComponentSpacePose
 
 	if (bDrawDebug)
 	{
-		//DrawDebug();
+		DrawDebug();
 	}
 	
 	// Stuff from the AnimBP
@@ -436,9 +440,8 @@ float FAnimNode_UBIKSolver::RotateElbowByHandPosition(FVector Hand, bool IsLeftA
 
 	float Sign = (IsLeftArm) ? (1.f) : (-1.f);
 
-	// *** [MG] fixed sign discrepancy with the BP, there was a * instead of +
 	float Angle = Settings.ElbowBaseOffsetAngle +
-		(Settings.ElbowYWeight * FMath::Max(0.f, TempHand.Y * Sign + Settings.ElbowYDistanceStart));
+		(Settings.ElbowYWeight * FMath::Max(0.f, (TempHand.Y * Sign) + Settings.ElbowYDistanceStart));
 
 	return Angle;
 }
@@ -509,6 +512,11 @@ void FAnimNode_UBIKSolver::DrawDebug()
 
 void FAnimNode_UBIKSolver::DrawAxes(FTransform Transform, bool bDrawAxes)
 {
+	if (!MeshComponent)
+		return;
+
+	World = MeshComponent->GetWorld();
+
 	if (!World)
 		return;
 
