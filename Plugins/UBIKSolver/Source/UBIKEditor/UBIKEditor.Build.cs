@@ -20,36 +20,10 @@ public class UBIKEditor : ModuleRules
 				// ... add other private include paths required here ...
 			}
 			);
-			
-		
-		PublicDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"Core",
-				"UBIKRuntime",
-				// ... add other public dependencies that you statically link with here ...
-			}
-            );
-			
-		
-		PrivateDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"CoreUObject",
-				"Engine",
-				"Slate",
-				"SlateCore",
-                "GraphEditor",
-                "PropertyEditor",
-                "EditorStyle",
-                "AnimGraphRuntime",
-				"AnimGraph",
-                "BlueprintGraph",
 
-				// ... add private dependencies that you statically link with here ...	
-			}
-            );
-		
+        PublicDependencyModuleNames.AddRange(new string[] { "UBIKRuntime", "Core", "CoreUObject", "Engine", "InputCore"});
+
+        PrivateDependencyModuleNames.AddRange(new string[] { "UnrealEd", "EditorStyle", "AnimGraph", "BlueprintGraph", "PropertyEditor", "Slate", "SlateCore" });
 		
 		DynamicallyLoadedModuleNames.AddRange(
 			new string[]
