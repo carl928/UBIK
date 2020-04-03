@@ -467,7 +467,7 @@ void FAnimNode_UBIKSolver::RotateElbow(float Angle, FTransform UpperArm, FTransf
 {
 	FVector PivotLoc =
 		UpperArm.GetTranslation() +
-		UKismetMathLibrary::ProjectVectorOnToVector(LowerArm.GetTranslation() - UpperArm.GetTranslation(), UpperArm.GetTranslation() - HandLoc);
+		UKismetMathLibrary::ProjectVectorOnToVector(UpperArm.GetTranslation() - LowerArm.GetTranslation(), UpperArm.GetTranslation() - HandLoc);
 
 	FVector Forward = UpperArm.GetTranslation() - HandLoc;
 	FVector Right = FVector::CrossProduct(UKismetMathLibrary::GetUpVector(UpperArm.Rotator()), Forward);
