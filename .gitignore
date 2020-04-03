@@ -127,3 +127,5 @@ WindowsNoEditor/*
 
 *.pdb
 **/Binaries/*
+**/UBIKSolver/*
+
