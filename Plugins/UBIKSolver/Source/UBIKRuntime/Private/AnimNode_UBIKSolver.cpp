@@ -368,8 +368,8 @@ void FAnimNode_UBIKSolver::SolveArms()
 
 	float Roll = FMath::Max((LeftHandTransformW.GetTranslation() - LeftUpperArmTransformW.GetTranslation()).Z, 0.f);
 	FTransform UpperArmS = LeftUpperArmTransformW * ComponentSpace;
-	// *** [MG] Translation was forgotten from the transform
-	LeftUpperArmTransformC = FTransform(UKismetMathLibrary::ComposeRotators(FRotator(0.f, 0.f, Roll), UpperArmS.Rotator()),UpperArmS.GetTranslation());
+
+	LeftUpperArmTransformC = FTransform(UKismetMathLibrary::ComposeRotators(FRotator(0.f, 0.f, Roll), UpperArmS.Rotator()), UpperArmS.GetTranslation());
 	LeftLowerArmTransformC = LeftLowerArmTransformW * ComponentSpace;
 
 	/** RIGHT ARM **/
@@ -397,10 +397,10 @@ void FAnimNode_UBIKSolver::SolveArms()
 	RightUpperArmTransformW = RightUpperArmTransformS * ShoulderTransformW;
 	RightLowerArmTransformW = RightLowerArmTransformS * ShoulderTransformW;
 
-	Roll = FMath::Max((RightHandTransformW.GetTranslation() - RightUpperArmTransformW.GetTranslation()).Z, 0.f);
+	Roll = -1.f * FMath::Max((RightHandTransformW.GetTranslation() - RightUpperArmTransformW.GetTranslation()).Z, 0.f);
 	UpperArmS = RightUpperArmTransformW * ComponentSpace;
-	// *** [MG] Translation was forgotten from the transform
-	RightUpperArmTransformC = FTransform(UKismetMathLibrary::ComposeRotators(FRotator(0.f, 0.f, Roll), UpperArmS.Rotator()),UpperArmS.GetTranslation());
+
+	RightUpperArmTransformC = FTransform(UKismetMathLibrary::ComposeRotators(FRotator(0.f, 0.f, Roll), UpperArmS.Rotator()), UpperArmS.GetTranslation());
 	RightLowerArmTransformC = RightLowerArmTransformW * ComponentSpace;
 }
 
