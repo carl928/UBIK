@@ -36,8 +36,9 @@ public:
 	FUBIKSettings Settings;
 
 	/** Set this to get debug draws of certain internal transforms. Used only for debugging purposes. **/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Debug)
-	bool bDrawDebug = false;
+	// TODO: Disabled for now, because it crashes engine for some reason.
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Debug)
+	//bool bDrawDebug = false;
 
 	//** Head bone to modify **/
 	UPROPERTY(EditAnywhere, Category = HeadBone)
@@ -76,20 +77,24 @@ public:
 	FBoneReference RightHandBoneToModify = FBoneReference("hand_r");
 
 	//** Spine01 bone to modify **/
-	UPROPERTY(EditAnywhere, Category = Spine_and_Pelvis)
+	UPROPERTY(EditAnywhere, Category = Spine)
 	FBoneReference Spine01_BoneToModify = FBoneReference("spine_01");
 
 	//** Spine02 bone to modify **/
-	UPROPERTY(EditAnywhere, Category = Spine_and_Pelvis)
+	UPROPERTY(EditAnywhere, Category = Spine)
 	FBoneReference Spine02_BoneToModify = FBoneReference("spine_02");
 
 	//** Spine03 bone to modify **/
-	UPROPERTY(EditAnywhere, Category = Spine_and_Pelvis)
+	UPROPERTY(EditAnywhere, Category = Spine)
 	FBoneReference Spine03_BoneToModify = FBoneReference("spine_03");
 
 	//** Pelvis bone to modify **/
-	UPROPERTY(EditAnywhere, Category = Spine_and_Pelvis)
+	UPROPERTY(EditAnywhere, Category = Pelvis)
 	FBoneReference PelvisBoneToModify = FBoneReference("pelvis");
+
+	/** By default Pelvis will be driven from Head location with an offset. Set to true to ignore Location. **/
+	UPROPERTY(EditAnywhere, Category = Pelvis)
+	bool bIgnoreLocation = false;
 
 	// FAnimNode_Base interface
 	virtual void GatherDebugData(FNodeDebugData& DebugData) override;

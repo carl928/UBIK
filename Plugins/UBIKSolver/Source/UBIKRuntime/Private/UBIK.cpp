@@ -60,3 +60,8 @@ float UUBIK::CosineRule(float Adjacent1, float Adjacent2, float Opposite)
 		)
 	);
 }
+
+FRotator UUBIK::FindBetweenNormals(const FVector& A, const FVector& B)
+{
+	return FQuat::FindBetweenNormals(A, B).Rotator();
+}

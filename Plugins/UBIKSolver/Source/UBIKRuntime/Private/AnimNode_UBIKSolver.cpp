@@ -28,8 +28,6 @@ void FAnimNode_UBIKSolver::EvaluateSkeletalControl_AnyThread(FComponentSpacePose
 	ComponentSpaceW = Output.AnimInstanceProxy->GetComponentTransform();
 	ComponentSpace = ComponentSpaceW.Inverse();
 
-	MeshComponent = Output.AnimInstanceProxy->GetSkelMeshComponent();
-
 	ConvertTransforms();
 	
 	SetShoulder();
@@ -42,10 +40,11 @@ void FAnimNode_UBIKSolver::EvaluateSkeletalControl_AnyThread(FComponentSpacePose
 	BaseCharTransformC = GetBaseCharTransform();
 	//UE_LOG(LogUBIKRuntime, Display, TEXT("BaseCharTransformC loc: %s"), *BaseCharTransformC.GetTranslation().ToString());
 
-	if (bDrawDebug)
-	{
-		DrawDebug();
-	}
+	// TODO: Disabled for now, because it crashes engine for some reason.
+	//if (bDrawDebug)
+	//{
+	//	DrawDebug();
+	//}
 	
 	// Stuff from the AnimBP
 	Head = UKismetMathLibrary::ComposeRotators(FRotator(90.f, 0.f, 90.f), HeadTransformC.Rotator());
@@ -68,7 +67,7 @@ void FAnimNode_UBIKSolver::EvaluateSkeletalControl_AnyThread(FComponentSpacePose
 
 	const FBoneContainer& BoneContainer = Output.Pose.GetPose().GetBoneContainer();
 
-	SetBoneTransform(PelvisBoneToModify, Pelvis, Output, BoneContainer, true, true);
+	SetBoneTransform(PelvisBoneToModify, Pelvis, Output, BoneContainer, true, !bIgnoreLocation);
 
 	SetBoneTransform(Spine01_BoneToModify, FTransform(UKismetMathLibrary::ComposeRotators(FRotator(83.f, 0.f, 90.f), Spine01)), Output, BoneContainer, true);
 	SetBoneTransform(Spine02_BoneToModify, FTransform(UKismetMathLibrary::ComposeRotators(FRotator(104.0f, 0.f, 90.f), Spine02)), Output, BoneContainer, true);
@@ -106,14 +105,13 @@ FBoneTransform FAnimNode_UBIKSolver::SetBoneTransform(const FBoneReference& Bone
 			NewTransform.SetTranslation(Transform.GetTranslation());
 		}
 		TempTransform.Add(FBoneTransform(CompactBoneIndex, NewTransform));
-		Output.Pose.LocalBlendCSBoneTransforms(TempTransform, 1.f);
+		Output.Pose.LocalBlendCSBoneTransforms(TempTransform, Alpha);
 
 		return FBoneTransform(CompactBoneIndex, NewTransform);
 	}
 
 	return FBoneTransform(FCompactPoseBoneIndex(0), FTransform::Identity);
 }
-
 
 bool FAnimNode_UBIKSolver::IsValidToEvaluate(const USkeleton* Skeleton, const FBoneContainer& RequiredBones)
 {
