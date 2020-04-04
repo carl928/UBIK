@@ -25,6 +25,7 @@ void FAnimNode_UBIKSolver::EvaluateSkeletalControl_AnyThread(FComponentSpacePose
 	check(OutBoneTransforms.Num() == 0);
 
 	//UE_LOG(LogUBIKRuntime, Display, TEXT("DeltaTime: %f"), DeltaTime);
+	MeshComponent = Output.AnimInstanceProxy->GetSkelMeshComponent();
 	ComponentSpaceW = Output.AnimInstanceProxy->GetComponentTransform();
 	ComponentSpace = ComponentSpaceW.Inverse();
 
@@ -152,8 +153,15 @@ void FAnimNode_UBIKSolver::ConvertTransforms()
 	ShoulderTransformW = ShoulderTransformC * ComponentSpaceW;
 	ShoulderTransform = ShoulderTransformW.Inverse();
 
-	LeftHandTransformW = UUBIK::AddLocalOffset(LeftHandTransformW, FVector(8.f, 0.f, 0.f));
-	RightHandTransformW = UUBIK::AddLocalOffset(RightHandTransformW, FVector(8.f, 0.f, 0.f));
+	//UE_LOG(LogUBIKRuntime, Display, TEXT("1:LeftHandTransformW: %s"), *LeftHandTransformW.GetTranslation().ToString());
+	//UE_LOG(LogUBIKRuntime, Display, TEXT("Settings.LocalHandOffset: %s"), *Settings.LocalHandOffset.GetTranslation().ToString());
+	LeftHandTransformW = UUBIK::AddLocalOffset(LeftHandTransformW, Settings.LocalHandOffset);
+
+	//DebugDrawAxes(LeftHandTransformW, true);
+
+	//UE_LOG(LogUBIKRuntime, Display, TEXT("2:LeftHandTransformW: %s"), *LeftHandTransformW.GetTranslation().ToString());
+	// Mirror Y-direction otherwise it will move opposite ways.
+	RightHandTransformW = UUBIK::AddLocalOffset(RightHandTransformW, Settings.LocalHandOffset * FVector(1.f, -1.f, 1.f));
 
 	HeadTransformC = HeadTransformW * ComponentSpace;
 	LeftHandTransformC = LeftHandTransformW * ComponentSpace;
@@ -500,25 +508,28 @@ FTransform FAnimNode_UBIKSolver::GetBaseCharTransform()
 
 void FAnimNode_UBIKSolver::DrawDebug()
 {
-	DrawAxes(LeftHandTransformW, true);
-	DrawAxes(RightHandTransformW, true);
-	DrawAxes(LeftUpperArmTransformW, true);
-	DrawAxes(LeftLowerArmTransformW, true);
+	DebugDrawAxes(LeftHandTransformW, true);
+	DebugDrawAxes(RightHandTransformW, true);
+	DebugDrawAxes(LeftUpperArmTransformW, true);
+	DebugDrawAxes(LeftLowerArmTransformW, true);
 	//DrawDebugLine(GetWorld(), WorldTransform.GetLocation(), WorldTransform.GetLocation() + (WorldRot.GetUpVector() * 10.f), FColor::Blue);
 
 }
 
-void FAnimNode_UBIKSolver::DrawAxes(FTransform Transform, bool bDrawAxes)
+void FAnimNode_UBIKSolver::DebugDrawAxes(FTransform Transform, bool bDrawAxes)
 {
+	// UE_LOG(LogUBIKRuntime, Display, TEXT("DrawAxes begin"));
 	if (!MeshComponent)
 		return;
 
+	// UE_LOG(LogUBIKRuntime, Display, TEXT("DrawAxes MeshComponent ok"));
 	World = MeshComponent->GetWorld();
 
 	if (!World)
 		return;
 
-	DrawDebugSphere(World, Transform.GetTranslation(), 3.0f, 20.f, FColor::Silver);
+	// UE_LOG(LogUBIKRuntime, Display, TEXT("DrawAxes World ok"));
+	DrawDebugSphere(World, Transform.GetTranslation(), 5.2f, 20.f, FColor::Silver);
 
 	if (bDrawAxes)
 	{

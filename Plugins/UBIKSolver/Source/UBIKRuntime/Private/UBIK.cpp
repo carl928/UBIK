@@ -26,17 +26,15 @@ FUBIKSettings UUBIK::Initialize(FUBIKDefaults Defaults, FUBIKCalibrationData Cal
 	Settings.OkSpanAngle = Defaults.OkSpanAngle;
 	Settings.BaseCharOffset = Defaults.BaseCharOffset;
 	Settings.BodyInterSpeed = Defaults.BodyInterSpeed;
+	Settings.LocalHandOffset = Defaults.LocalHandOffset;
 	return Settings;
 }
 
-FTransform UUBIK::AddLocalOffset(const FTransform Transform, const FVector Vector)
+FTransform UUBIK::AddLocalOffset(const FTransform Transform, const FVector Offset)
 {
 	FTransform Inversed = Transform.Inverse();
-	return FTransform(
-		Inversed.GetRotation(),
-		Inversed.GetTranslation() + Vector,
-		Inversed.GetScale3D()
-	).Inverse();
+	Inversed.AddToTranslation(Offset);
+	return Inversed.Inverse();
 }
 
 FTransform UUBIK::RotatePointAroundPivot(FTransform Point, FTransform Pivot, FRotator Delta)

@@ -78,6 +78,10 @@ public:
 	/** This should be set via call to GetUBIKSettings, typically from "Event Blueprint Begin Play" **/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 	float UpperArmsDistance = 0.f;
+
+	/** This should be set via call to GetUBIKSettings, typically from "Event Blueprint Begin Play" **/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
+	FVector LocalHandOffset = FVector::ZeroVector;
 };
 
 USTRUCT(BlueprintType)
@@ -136,6 +140,11 @@ public:
 	/** Interp speed between each bone from head to Pelvis-chain. Higher values give a more stiff upperbody that rotate more 1:1 with head. **/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 	float BodyInterSpeed = 10.f;
+
+	/** Local Hand Offset that will be applied to MotionController transforms (LeftHandTransformW and RightHandTransformW) to better fit with your mesh.
+	* These may vary for each type of MotionController too, so make sure to adjust this accordingly. **/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
+	FVector LocalHandOffset = FVector(8.5f, -1.5f, 0.f);
 };
 
 USTRUCT(BlueprintType)
@@ -167,8 +176,8 @@ public:
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetUBIKSettings", Keywords = "UBIK Calibrate"), Category = "UBIK")
 	static FUBIKSettings Initialize(FUBIKDefaults Defaults, FUBIKCalibrationData Calibration);
 
-	/** Adds Vector to Transform in LocalSpace. **/
-	static FTransform AddLocalOffset(const FTransform Transform, const FVector Vector);
+	/** Adds Offset to Transform in LocalSpace. **/
+	static FTransform AddLocalOffset(const FTransform Transform, const FVector Offset);
 
 	/** Rotates the Point around Pivot, by given Delta rotation. **/
 	UFUNCTION(BlueprintPure, meta = (DisplayName = "RotatePointAroundPivot", Keywords = "UBIK Rotate Pivot"), Category = "UBIK Utility")
