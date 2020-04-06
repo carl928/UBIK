@@ -17,9 +17,26 @@ void FAnimNode_UBIKSolver::Initialize_AnyThread(const FAnimationInitializeContex
 	Context.AnimInstanceProxy->GetSkelMeshComponent()->SetTickGroup(TG_DuringPhysics);
 }
 
-/* Only valid if i base this off FAnimNode_SkeletalControlBase */
 void FAnimNode_UBIKSolver::EvaluateSkeletalControl_AnyThread(FComponentSpacePoseContext& Output, TArray<FBoneTransform>& OutBoneTransforms)
 {
+	// Optimally i would like to make this check in IsValidToEvaluate(), but that doesn't seem to work.
+	if (Output.AnimInstanceProxy->GetSkelMeshComponent() && Output.AnimInstanceProxy->GetSkelMeshComponent()->GetWorld())
+	{
+		World = Output.AnimInstanceProxy->GetSkelMeshComponent()->GetWorld();
+		if (!(World->WorldType == EWorldType::Game || World->WorldType == EWorldType::PIE))
+		{
+			//GEngine->AddOnScreenDebugMessage((uint64)-1, 2.f, FColor::Cyan, TEXT("Game is not running"));
+			//UE_LOG(LogUBIKRuntime, Display, TEXT("Game is running"));
+			return;
+		}
+	}
+	else
+	{
+		//GEngine->AddOnScreenDebugMessage((uint64)-1, 2.f, FColor::Cyan, TEXT("Game is not running"));
+		//UE_LOG(LogUBIKRuntime, Display, TEXT("Game is running"));
+		return;
+	}
+
 	SCOPE_CYCLE_COUNTER(STAT_UBIK_EvaluateThread);
 
 	check(OutBoneTransforms.Num() == 0);
