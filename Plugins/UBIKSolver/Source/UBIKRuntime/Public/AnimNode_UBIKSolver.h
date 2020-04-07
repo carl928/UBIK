@@ -106,6 +106,7 @@ public:
 	virtual bool IsValidToEvaluate(const USkeleton* Skeleton, const FBoneContainer& RequiredBones) override;
 	virtual void UpdateInternal(const FAnimationUpdateContext& Context) override;
 	virtual void InitializeBoneReferences(const FBoneContainer& RequiredBones) override;
+	//virtual void CacheBones_AnyThread(const FAnimationCacheBonesContext& Context) override;
 	// End of FAnimNode_SkeletalControlBase interface
 
 private:
@@ -192,7 +193,7 @@ private:
 	void DrawDebug();
 	void DebugDrawAxes(FTransform Transform, bool DrawAxis = true);
 
-	/** Will output a bone (FBoneTransform) in ComponentSpace. The given Transform will only apply Translation if explicitly defined. **/
-	FBoneTransform SetBoneTransform(const FBoneReference& BoneToModify, FTransform Transform, FComponentSpacePoseContext& Output, const FBoneContainer& BoneContainer, bool bApplyRotation, bool bApplyTranslation = false);
+	/** The given Transform will only apply Translation if explicitly defined. **/
+	void SetBoneTransform(const FBoneReference& BoneToModify, FTransform Transform, FComponentSpacePoseContext& Output, const FBoneContainer& BoneContainer, bool bApplyRotation, bool bApplyTranslation = false);
 };
 

@@ -10,10 +10,13 @@ DECLARE_CYCLE_STAT(TEXT("UBIK_EvaluateThread"), STAT_UBIK_EvaluateThread, STATGR
 
 void FAnimNode_UBIKSolver::GatherDebugData(FNodeDebugData& DebugData)
 {
+	FAnimNode_SkeletalControlBase::GatherDebugData(DebugData);
 }
 
 void FAnimNode_UBIKSolver::Initialize_AnyThread(const FAnimationInitializeContext& Context)
 {
+	FAnimNode_SkeletalControlBase::Initialize_AnyThread(Context);
+
 	Context.AnimInstanceProxy->GetSkelMeshComponent()->SetTickGroup(TG_DuringPhysics);
 }
 
@@ -103,7 +106,7 @@ void FAnimNode_UBIKSolver::EvaluateSkeletalControl_AnyThread(FComponentSpacePose
 	SetBoneTransform(RightHandBoneToModify, FTransform(Hand_r), Output, BoneContainer, true);
 }
 
-FBoneTransform FAnimNode_UBIKSolver::SetBoneTransform(const FBoneReference& BoneToModify, FTransform Transform, FComponentSpacePoseContext& Output, const FBoneContainer& BoneContainer, bool bApplyRotation, bool bApplyTranslation)
+void FAnimNode_UBIKSolver::SetBoneTransform(const FBoneReference& BoneToModify, FTransform Transform, FComponentSpacePoseContext& Output, const FBoneContainer& BoneContainer, bool bApplyRotation, bool bApplyTranslation)
 {
 	TArray<FBoneTransform> TempTransform;
 
@@ -121,14 +124,10 @@ FBoneTransform FAnimNode_UBIKSolver::SetBoneTransform(const FBoneReference& Bone
 		if (bApplyTranslation)
 		{
 			NewTransform.SetTranslation(Transform.GetTranslation());
-		}
+		}        
 		TempTransform.Add(FBoneTransform(CompactBoneIndex, NewTransform));
 		Output.Pose.LocalBlendCSBoneTransforms(TempTransform, Alpha);
-
-		return FBoneTransform(CompactBoneIndex, NewTransform);
 	}
-
-	return FBoneTransform(FCompactPoseBoneIndex(0), FTransform::Identity);
 }
 
 bool FAnimNode_UBIKSolver::IsValidToEvaluate(const USkeleton* Skeleton, const FBoneContainer& RequiredBones)
