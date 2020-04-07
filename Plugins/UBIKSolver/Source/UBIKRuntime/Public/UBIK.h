@@ -144,7 +144,7 @@ public:
 	/** Local Hand Offset that will be applied to MotionController transforms (LeftHandTransformW and RightHandTransformW) to better fit with your mesh.
 	* These may vary for each type of MotionController too, so make sure to adjust this accordingly. **/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
-	FVector LocalHandOffset = FVector(8.5f, -1.5f, 0.f);
+	FVector LocalHandOffset = FVector(14.f, -2.f, 0.f);
 };
 
 USTRUCT(BlueprintType)
