@@ -3,20 +3,27 @@
 UBIK is an Upper Body IK solution for VR inspired by Mathias Parger's master thesis http://diglib.tugraz.at/download.php?id=5c4a48dc5a282&location=browse
 which was implemented in Unity and shared here: https://github.com/dabeschte/VRArmIK
 
-*UBIK was developed by Jonas Mølgaard, and covered in a number of tutorials here: https://www.youtube.com/watch?v=_hdj8JNfoSI&list=PLT4SeajOa6mZuzBdp5GC5NrKy4pdnVj0b* 
-
-### Features ###
+## Features ##
 
 * VR Upper Body based on two controllers and hmd
 * 360deg movement
 * Simple support for skeletal meshes
 * Support for IK chain going from Pelvis and up
-* Limited support for twist bones
+* Easy to use Plugin
+* Bonus utility functions (RotatePointAroundPivot, SafeguardAngle, CosineRule, FindBetweenNormals)
 
-### Limitations ###
+### Requirements ###
+* SkeletalMesh must be rigged with the default UE4 mannequin skeleton.
 
-* Currently only works in upright position (Aligned with World Up-Vector)
+## Versionhistory ##
+# 1.01 #
+* Fix: Assume basepose in designtime, so you can see your mesh.
+* Changed: Default LocalHandOffset (14,-2,0).
 
-### Branches ###
-* **4.23** is the BP only version that i did the tutorials on.
-* **4.23_Plugin** *(Work in progress)* is my current attempt at trying to convert it to cpp in a Plugin.
+# 1.00 #
+* First version that packages and has all the basic original BP features implemented.
+* Missing feature: Upper and Lower wristbones are not implemented atm.
+
+
+
+
