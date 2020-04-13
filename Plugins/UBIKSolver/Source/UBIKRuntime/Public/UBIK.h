@@ -82,6 +82,10 @@ public:
 	/** This should be set via call to GetUBIKSettings, typically from "Event Blueprint Begin Play" **/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 	FVector LocalHandOffset = FVector::ZeroVector;
+
+	/** This should be set via call to GetUBIKSettings, typically from "Event Blueprint Begin Play" **/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
+	float ShoulderHeadHandAlpha = 0.f;
 };
 
 USTRUCT(BlueprintType)
@@ -145,6 +149,13 @@ public:
 	* These may vary for each type of MotionController too, so make sure to adjust this accordingly. **/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 	FVector LocalHandOffset = FVector(14.f, -2.f, 0.f);
+
+	/** Determine where Shoulder rotation comes from. Pr. default it will be weighted between Hands position and Head direction. 
+	* 0 = Head. UpperBody (Shoulder base) will be controlled entirely by Head direction.
+	* 1 = Hands. UpperBody (Shoulder base) will be controlled by looking at the mean direction of the hands position relative to the Chest.
+	**/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
+	float ShoulderHeadHandAlpha = 0.75f;
 };
 
 USTRUCT(BlueprintType)

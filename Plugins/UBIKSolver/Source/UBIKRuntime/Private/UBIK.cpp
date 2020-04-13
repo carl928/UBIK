@@ -27,6 +27,7 @@ FUBIKSettings UUBIK::Initialize(FUBIKDefaults Defaults, FUBIKCalibrationData Cal
 	Settings.BaseCharOffset = Defaults.BaseCharOffset;
 	Settings.BodyInterSpeed = Defaults.BodyInterSpeed;
 	Settings.LocalHandOffset = Defaults.LocalHandOffset;
+	Settings.ShoulderHeadHandAlpha = Defaults.ShoulderHeadHandAlpha;
 	return Settings;
 }
 

@@ -195,7 +195,7 @@ void FAnimNode_UBIKSolver::SetShoulder()
 	FRotator RotationFromHands = GetShoulderRotationFromHands();
 	//UE_LOG(LogUBIKRuntime, Display, TEXT("RotationFromHands: %s"), *RotationFromHands.ToString());
 
-	FRotator Rotation = FRotator(0.f, UKismetMathLibrary::RLerp(RotationFromHead, RotationFromHands, 0.7f, true).Yaw, 0.f);
+	FRotator Rotation = FRotator(0.f, UKismetMathLibrary::RLerp(RotationFromHead, RotationFromHands, Settings.ShoulderHeadHandAlpha, true).Yaw, 0.f);
 	//UE_LOG(LogUBIKRuntime, Display, TEXT("Rotation: %s"), *Rotation.ToString());
 
 	FVector Translation = GetShoulderLocation();
