@@ -16,6 +16,9 @@ which was implemented in Unity and shared here: https://github.com/dabeschte/VRA
 * SkeletalMesh must be rigged with the default UE4 mannequin skeleton.
 
 ## Versionhistory ##
+# 1.03 #
+* Incorporated BaseCharOffset (X and Y component) into the local ShoulderLocation offset. This allow us to tweak the positioning back and forth of the body.
+
 # 1.01 #
 * Fix: Assume basepose in designtime, so you can see your mesh.
 * Changed: Default LocalHandOffset (14,-2,0).

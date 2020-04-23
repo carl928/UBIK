@@ -212,7 +212,7 @@ void FAnimNode_UBIKSolver::SetShoulder()
 
 FVector FAnimNode_UBIKSolver::GetShoulderLocation()
 {
-	FVector Offset = FVector(-9.f, 0.f, -7.f);
+	FVector Offset = FVector(-9.f, 0.f, -7.f) + FVector(Settings.BaseCharOffset.X, Settings.BaseCharOffset.Y, 0.f);
 	FRotator HeadRotator = HeadTransformC.Rotator();
 	FRotator HeadYaw = FRotator(0.f, HeadRotator.Yaw, HeadRotator.Roll);
 
@@ -518,8 +518,8 @@ void FAnimNode_UBIKSolver::RotateElbow(float Angle, FTransform UpperArm, FTransf
 
 FTransform FAnimNode_UBIKSolver::GetBaseCharTransform()
 {
-	//UE_LOG(LogUBIKRuntime, Display, TEXT("ShoulderTransformC: %s"), *ShoulderTransformC.ToString());
-	return FTransform(ShoulderTransformC.Rotator(), ShoulderTransformC.GetTranslation() + Settings.BaseCharOffset, FVector::OneVector);
+	// I've already added the X and the Y component in SetShoulder(), that's why i negate these here.
+	return FTransform(ShoulderTransformC.Rotator(), ShoulderTransformC.GetTranslation() + FVector(0.f, 0.f, Settings.BaseCharOffset.Z), FVector::OneVector);
 }
 
 void FAnimNode_UBIKSolver::DrawDebug()
